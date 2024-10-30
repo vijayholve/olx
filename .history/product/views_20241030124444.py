@@ -87,15 +87,11 @@ def product_create_form(request):
 
 
 
-def product_details(request, product_id):
+def product_details(request,product_id):
     product = Product.objects.get(id=product_id)
-    images_queryset = product.images.all()
-    for image in images_queryset:
-        print(image.image.url) 
-
+    product_images_all = ProductImage.objects.filter(product=product)
     context = {
         'product': product,
-        'product_images_all': images_queryset,  
+        'product_images_all': product_images_all,
     }
-
     return render(request, 'product/product_details.html', context)

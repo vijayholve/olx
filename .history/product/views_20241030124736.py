@@ -87,15 +87,21 @@ def product_create_form(request):
 
 
 
-def product_details(request, product_id):
+def product_details(request,product_id):
     product = Product.objects.get(id=product_id)
     images_queryset = product.images.all()
-    for image in images_queryset:
-        print(image.image.url) 
 
+# Iterate through the queryset and print image URLs
+    for image in images_queryset:
+        print(image.image.url)  # Access the URL of each image
+
+    # Alternatively, get the first image and print its URL
+    if images_queryset.exists():  # Check if the queryset is not empty
+        first_image = images_queryset.first()
+    print(first_image.image.url)  # Print the URL of the first image
+    product_images_all = ProductImage.objects.filter(product=product)
     context = {
         'product': product,
-        'product_images_all': images_queryset,  
+        'product_images_all': product_images_all,
     }
-
     return render(request, 'product/product_details.html', context)

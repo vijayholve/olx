@@ -88,14 +88,20 @@ def product_create_form(request):
 
 
 def product_details(request, product_id):
+    # Retrieve the product by its ID
     product = Product.objects.get(id=product_id)
-    images_queryset = product.images.all()
-    for image in images_queryset:
-        print(image.image.url) 
 
+    # Get all images related to the product
+    images_queryset = product.images.all()
+
+    # Optional: Print image URLs (for debugging purposes)
+    for image in images_queryset:
+        print(image.image.url)  # Access the URL of each image
+
+    # Prepare the context to render the template
     context = {
         'product': product,
-        'product_images_all': images_queryset,  
+        'product_images_all': images_queryset,  # Pass the queryset directly
     }
 
     return render(request, 'product/product_details.html', context)

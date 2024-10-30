@@ -2,13 +2,15 @@
 
 {% block css_content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'product/product_details.css' %}?v={{time}}">
+<link rel="stylesheet" href="{% static 'product/product_details.css' %}">
 {% endblock css_content %}
 
 {% block content %}
 
 <main class="container">
+    <!-- Left Column / Product Images -->
     <main class="container">
+        <!-- Left Column / Product Images -->
         <div class="left-column">
             <div id="imageCarousel" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -21,6 +23,7 @@
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                             <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ product.title }} - {{ image.color }}">
                             <div class="carousel-caption d-none d-md-block">
+                                <!-- You can add captions here if needed -->
                             </div>
                         </div>
                     {% endfor %}

@@ -88,6 +88,7 @@ def product_create_form(request):
 
 
 def product_details(request, product_id):
+    # Retrieve the product by its ID
     product = Product.objects.get(id=product_id)
     images_queryset = product.images.all()
     for image in images_queryset:

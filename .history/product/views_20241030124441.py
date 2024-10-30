@@ -23,11 +23,13 @@ def home(request):
             Q(category__name__icontains=query)
         ).filter(category__name=category)
     elif query:
+        # Only search query is provided
         products = Product.objects.filter(
             Q(title__icontains=query) | 
             Q(category__name__icontains=query)
         )
     elif category:
+        # Only category is provided
         products = Product.objects.filter(category__name=category)
     else:
         products = Product.objects.all()
@@ -87,15 +89,11 @@ def product_create_form(request):
 
 
 
-def product_details(request, product_id):
+def product_details(request,product_id):
     product = Product.objects.get(id=product_id)
-    images_queryset = product.images.all()
-    for image in images_queryset:
-        print(image.image.url) 
-
+    product_images_all = ProductImage.objects.filter(product=product)
     context = {
         'product': product,
-        'product_images_all': images_queryset,  
+        'product_images_all': product_images_all,
     }
-
     return render(request, 'product/product_details.html', context)

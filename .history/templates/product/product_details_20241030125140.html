@@ -2,13 +2,15 @@
 
 {% block css_content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'product/product_details.css' %}?v={{time}}">
+<link rel="stylesheet" href="{% static 'product/product_details.css' %}">
 {% endblock css_content %}
 
 {% block content %}
 
 <main class="container">
+    <!-- Left Column / Product Images -->
     <main class="container">
+        <!-- Left Column / Product Images -->
         <div class="left-column">
             <div id="imageCarousel" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -17,15 +19,15 @@
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner">
-                    {% for image in product_images_all %}
+                    {% for image in product.images %}  <!-- Use product_images_all passed from the context -->
                         <div class="carousel-item {% if forloop.first %}active{% endif %}">
                             <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ product.title }} - {{ image.color }}">
                             <div class="carousel-caption d-none d-md-block">
+                                <!-- You can add captions here if needed -->
                             </div>
                         </div>
                     {% endfor %}
                 </div>
-                
                 
                 <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
