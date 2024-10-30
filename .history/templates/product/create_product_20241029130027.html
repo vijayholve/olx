@@ -1,0 +1,27 @@
+{% extends 'base/main.html' %}
+
+{% block content %}
+<!-- create_product.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product</title>
+</head>
+<body>
+    <h1>Create a New Product</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ product_form.as_p }}
+        <h2>Upload Images (Minimum 20 required)</h2>
+        {{ image_form.images.label_tag }}
+        {{ image_form.images }}
+        <button type="submit">Create Product</button>
+    </form>
+</body>
+</html>
+
+    
+{% endblock content %}
+    

@@ -1,0 +1,78 @@
+/* Navbar styling */
+.navbar,.nav-form {
+  background-color: #f0f0f0; /* Light grey-white background */
+}
+
+.navbar .navbar-brand {
+  height: 50px;
+}
+
+.navbar-nav .nav-link {
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease, background 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2); /* Light hover effect */
+  border-radius: 5px;
+}
+
+.navbar-nav .dropdown-menu {
+  background-color: #333; /* Dark background for dropdown */
+  color: white;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: white;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #444; /* Slightly darker on hover */
+}
+
+.navbar-toggler-icon {
+  filter: brightness(0); /* Darken the toggler icon for better contrast */
+}
+
+.navbar .search-input {
+  width: 300px;
+  height: 45px;
+  border-radius: 25px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.navbar .btn-outline-success {
+  color: white;
+  border-color: white;
+  margin-left: 0.5rem;
+}
+
+.navbar .btn-outline-success:hover {
+  background-color: white;
+  color: #28a745;
+}
+/* Navbar styling adjustments */
+.navbar .search-input {
+  width: 200px; /* Reduced width for search bar */
+  height: 40px;
+  border-radius: 25px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.navbar .btn-outline-success, .navbar .btn-create {
+  color: white;
+  border-color: white;
+  margin-left: 0.5rem;
+}
+
+.navbar .btn-outline-success:hover, .navbar .btn-create:hover {
+  background-color: white;
+  color: #28a745;
+  width: 200px;
+}

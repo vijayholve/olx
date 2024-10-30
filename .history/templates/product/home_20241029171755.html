@@ -1,0 +1,51 @@
+{% extends 'base/main.html' %}
+{% load custom_filters %}
+{% load static %}
+
+{% block css_content %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'product/home.css' %}">
+    <link rel="stylesheet" href="{% static 'base/navbar.css' %}?v={{ time }}">
+{% endblock css_content %}
+
+{% block content %}
+<div class="products-container">
+    <!-- Navbar with contact info -->
+    <div class="products-list row">  <!-- Added 'row' class for Bootstrap grid -->
+        {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4">  <!-- Responsive column setup -->
+                <div class="product-card card">
+                    <div class="product-image">
+                        <img src="/media/{{ productimage|get_item:product.id }}" alt="{{ product.title }}" class="card-img-top">
+                    </div>
+                    <div class="product-content card-body">
+                        <div class="product-header">
+                            <h5 class="product-title card-title">{{ product.title }}</h5>
+                            <span class="product-price">₹{{ product.price }}</span>
+                        </div>
+                        <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+                        <div class="product-meta">
+                            <span class="product-category">{{ product.category }}</span>
+                            <span class="product-location">{{ product.location }}</span>
+                            <span class="product-condition">Condition: {{ product.condition }}</span>
+                            <span class="product-posted-by">Posted by: {{ product.posted_by.username }}</span>
+                            <span class="product-date">Posted on: {{ product.date_posted|date:"M d, Y" }}</span>
+                        </div>
+                        <div class="product-status">
+                            {% if product.is_active %}
+                                <span class="status-indicator active badge badge-success">Active</span>
+                            {% else %}
+                                <span class="status-indicator inactive badge badge-danger">Inactive</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No products available.</p>  <!-- Message if no products are found -->
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

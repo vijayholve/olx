@@ -1,0 +1,215 @@
+{% extends 'base/main.html' %}
+{% load custom_filters %}
+
+{% block css_content %}
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300,700');
+body {
+  font-family: "Open Sans", Helvetica, sans-serif;
+  text-align: center;
+  margin: 20px;
+}
+
+img {
+  max-height: 150px;
+  margin: auto;
+  display: inline-block;
+}
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-weight: 400;
+}
+
+
+.card {
+  display: inline-block;
+  width: 300px;
+  padding: 1em;
+  border-radius: 15px;  
+  margin: 10px;
+  background: #ddd;
+  text-align: left;
+
+}
+
+
+
+
+
+/* Container to hold all cards */
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Card Design */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background: #fdfdfd;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Image styling */
+.product-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Product content styling */
+.product-content {
+    padding: 15px;
+}
+
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.product-price {
+    font-size: 1.1em;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.product-description {
+    font-size: 0.9em;
+    color: #666;
+    margin: 10px 0;
+    height: 50px;
+    overflow: hidden;
+}
+
+.product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: 0.85em;
+    color: #555;
+}
+
+.product-meta span {
+    flex-basis: calc(50% - 5px);
+    margin-top: 8px;
+}
+
+.product-status .status-indicator {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 0.75em;
+    font-weight: bold;
+    border-radius: 4px;
+    color: #fff;
+}
+
+.status-indicator.active {
+    background-color: #2ecc71;
+}
+
+.status-indicator.inactive {
+    background-color: #e74c3c;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+    </style>
+    
+{% endblock css_content %}
+
+{% block content %}
+<div class="container-fluid first-box">
+    <!-- Navbar with contact info -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#">
+            <img src="images/main/Bingle-logo.png" alt="Nutririte Foods Logo" class="navbar-logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="product.html">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="culture.html">Culture</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about_us.html">About</a>
+                </li>
+               
+                <!-- Contact Info in Navbar -->
+                <li class="nav-item contact-info">
+                    <span class="nav-link">📞 +91 9561002094
+
+                    </span>
+                </li>
+                <li class="nav-item contact-info">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+  <div class="products-container">
+    {% for product in products %}
+        <div class="product-card">
+            <div class="product-image">
+                <img src="/media/{{ productimage|get_item:product.id }}" alt="{{ product.title }}">
+            </div>
+            <div class="product-content">
+                <div class="product-header">
+                    <h2 class="product-title">{{ product.title }}</h2>
+                    <span class="product-price">₹{{ product.price }}</span>
+                </div>
+                <p class="product-description">{{ product.description|truncatewords:20 }}</p>
+                <div class="product-meta">
+                    <span class="product-category">{{ product.category }}</span>
+                    <span class="product-location">{{ product.location }}</span>
+                    <span class="product-condition">Condition: {{ product.condition }}</span>
+                    <span class="product-posted-by">Posted by: {{ product.posted_by.username }}</span>
+                    <span class="product-date">Posted on: {{ product.date_posted|date:"M d, Y" }}</span>
+                </div>
+                <div class="product-status">
+                    {% if product.is_active %}
+                        <span class="status-indicator active">Active</span>
+                    {% else %}
+                        <span class="status-indicator inactive">Inactive</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

@@ -1,0 +1,99 @@
+{% extends 'base/main.html' %}
+{% load custom_filters %}
+
+{% block css_content %}
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans|Open+Sans+Condensed:300,700');
+body {
+  font-family: "Open Sans", Helvetica, sans-serif;
+  text-align: center;
+  margin: 20px;
+}
+
+img {
+  max-height: 150px;
+  margin: auto;
+  display: inline-block;
+}
+h1, h2, h3, h4, h5 {
+  margin: 0;
+  font-weight: 400;
+}
+
+
+.card {
+  display: inline-block;
+  width: 300px;
+  padding: 1em;
+  border-radius: 15px;  
+  margin: 10px;
+  background: #ddd;
+  text-align: left;
+
+}
+
+    </style>
+{% endblock css_content %}
+
+{% block content %}
+<div id="cards">  
+
+{% for product in products  %}
+    
+    
+    <figure class="card card--normal">
+      <div class="card__image-container">
+        <img src="/media/{{ productimage.get:product.id }}" alt="{{ product.name }}" class="card__image">
+    </div>
+      
+      <figcaption class="card__caption">
+        <h1 class="card__name">Eevee</h1>
+    
+        <h3 class="card__type">
+          normal
+        </h3>
+    
+        <table class="card__stats">
+          <tbody><tr>
+            <th>HP</th>
+            <td>55</td>
+          </tr>
+          <tr>
+            <th>Attack</th>
+            <td>55</td>
+          </tr>
+          
+          <tr>
+            <th>Defense</th>
+            <td>50</td>
+          </tr>
+    
+          <tr>
+            <th>Special Attack</th>
+            <td>45</td>
+          </tr>
+          <tr>
+            <th>Special Defense</th>
+            <td>65</td>
+          </tr>
+          <tr>
+            <th>Speed</th>  
+            <td>55</td>
+          </tr>
+        </tbody></table>
+        
+        <div class="card__abilities">
+          <h4 class="card__ability">
+            <span class="card__label">Ability</span>
+            Run Away
+          </h4>
+          <h4 class="card__ability">
+            <span class="card__label">Hidden Ability</span>
+            Anticipation
+          </h4>
+        </div>
+      </figcaption>
+    </figure>
+    
+  {% endfor %}
+{% endblock content %}
