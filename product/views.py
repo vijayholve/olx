@@ -17,11 +17,24 @@ from .models import Product, Category, ProductImage  # Import your models
 def home(request):
     category = request.GET.get('category', '')
     query = request.GET.get('search', '')  
-    if query and category:
+    condition=request.GET.get('condition', '')
+    if  query and category and condition:
+        products = Product.objects.filter(
+            Q(title__icontains=query) | 
+            Q(category__name__icontains=query)
+        ).filter(category__name=category, condition=condition)
+    elif query and condition:
+        products = Product.objects.filter(
+            Q(title__icontains=query) | 
+            Q(category__name__icontains=query)
+        ).filter(condition=condition)
+    
+    elif query and category:
         products = Product.objects.filter(
             Q(title__icontains=query) | 
             Q(category__name__icontains=query)
         ).filter(category__name=category)
+    
     elif query:
         products = Product.objects.filter(
             Q(title__icontains=query) | 
@@ -29,6 +42,8 @@ def home(request):
         )
     elif category:
         products = Product.objects.filter(category__name=category)
+    elif condition:
+        products = Product.objects.filter(condition=condition)
     else:
         products = Product.objects.all()
 
@@ -90,8 +105,7 @@ def product_create_form(request):
 def product_details(request, product_id):
     product = Product.objects.get(id=product_id)
     images_queryset = product.images.all()
-    for image in images_queryset:
-        print(image.image.url) 
+    
 
     context = {
         'product': product,
