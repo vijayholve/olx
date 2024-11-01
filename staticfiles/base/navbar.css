@@ -1,89 +1,78 @@
-body {
-    margin: 0;
-    font-family: "Afacad Flux", sans-serif; /* Consider a fallback font for better compatibility */
-    line-height: 1.6; /* Improved readability with line height */
+/* Navbar styling */
+.navbar,.nav-form {
+  background-color: #f0f0f0; /* Light grey-white background */
 }
 
-.nav-box {
-    display: flex;
-    justify-content: center;
-    background: #f7f7f7; /* Light gray background for contrast */
-    padding: 10px 20px; /* Uniform padding */
+.navbar .navbar-brand {
+  height: 50px;
 }
 
-nav {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 1200px; /* Constrain width for better layout */
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    padding: 10px 20px;
+.navbar-nav .nav-link {
+  color: rgb(0, 0, 0);
+  font-size: 1.1rem;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  transition: color 0.3s ease, background 0.3s ease;
 }
 
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    margin-right: auto; /* Pushes nav items to the right */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2); /* Light hover effect */
+  border-radius: 5px;
 }
 
-.navbar-brand img {
-    width: 80px; /* Consistent logo width */
-    height: auto;
+.navbar-nav .dropdown-menu {
+  background-color: #333; /* Dark background for dropdown */
+  color: white;
 }
 
-.nav-items {
-    display: flex;
-    gap: 20px; /* Spacing between nav items */
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: white;
 }
 
-.nav-item {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 10px;
-    border-radius: 4px; /* Rounded corners for hover effect */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #444; /* Slightly darker on hover */
 }
 
-.nav-item:hover,
-.nav-item.active {
-    color: #007bff; /* Change text color on hover */
-    text-decoration: underline; /* Underline effect for better feedback */
-    background-color: rgba(0, 123, 255, 0.1); /* Subtle background highlight */
+.navbar-toggler-icon {
+  filter: brightness(0); /* Darken the toggler icon for better contrast */
 }
 
-@media (max-width: 768px) {
-    .nav-items {
-        flex-direction: column; /* Stack items vertically on smaller screens */
-        gap: 10px; /* Reduced gap for smaller screens */
-    }
-
-    nav {
-        flex-direction: column; /* Stack nav items */
-        align-items: stretch; /* Stretch items to fit the container */
-    }
-
-    .nav-item {
-        text-align: center; /* Center align for mobile */
-        padding: 10px; /* Consistent padding */
-    }
-
-    .navbar-brand {
-        margin-bottom: 10px; /* Space between logo and nav items */
-    }
+.navbar .search-input {
+  width: 300px;
+  height: 45px;
+  border-radius: 25px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
 }
 
-@media (max-width: 400px) {
-    .nav-items {
-        gap: 5px; /* Further reduced gap */
-    }
+.navbar .btn-outline-success {
+  color: white;
+  border-color: white;
+  margin-left: 0.5rem;
+}
 
-    .nav-item {
-        font-size: 0.9rem; /* Smaller font size for small screens */
-    }
+.navbar .btn-outline-success:hover {
+  background-color: white;
+  color: #28a745;
+}
+/* Navbar styling adjustments */
+.navbar .search-input {
+  width: 200px; /* Reduced width for search bar */
+  height: 40px;
+  border-radius: 25px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
 
-    .navbar-brand img {
-        width: 50px; /* Adjusted logo size for very small screens */
-    }
+.navbar .btn-outline-success, .navbar .btn-create {
+  color: white;
+  border-color: white;
+  margin-left: 0.5rem;
+}
+
+.navbar .btn-outline-success:hover, .navbar .btn-create:hover {
+  background-color: white;
+  color: #28a745;
+
 }

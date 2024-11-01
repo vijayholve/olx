@@ -2,7 +2,7 @@
 
 {% block css_content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'product/product_details.css' %}">
+<link rel="stylesheet" href="{% static 'static/product/product_details.css' %}%}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -35,7 +35,11 @@
         width: 12px;
         height: 12px;
     }
-    
+    .carousel-control-prev, .carousel-control-next {
+        color: #ffffff;
+        background-color: #78bf00;
+        border-radius: 50%;
+    }
     /* Right Column */
     .right-column {
         padding: 20px;
