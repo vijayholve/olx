@@ -1,0 +1,91 @@
+/* General card styling */
+.product-card {
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Shadow on hover */
+}
+
+/* Image styling */
+.product-image img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+/* Status badge */
+.badge-success {
+    background-color: #28a745;
+    font-size: 0.9rem;
+    padding: 0.3em 0.6em;
+    border-radius: 5px;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.end-0 {
+    right: 0;
+}
+
+.product-title {
+    font-size: 1.8rem;
+    color: #333;
+    font-weight: 600;
+    font-style:bold;
+
+}
+
+.product-price {
+    font-size: 1.8rem;
+    color: #28a745;
+    font-weight: 600;
+    font-style:bold;
+}
+
+/* Meta badges */
+.product-meta .badge {
+    font-size: 0.85rem;
+    padding: 0.25em 0.5em;
+    border-radius: 20px;
+    margin-right: 0.3em;
+}
+
+/* Description */
+.product-description {
+    font-size: 0.9rem;
+    color: #555;
+}
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+/* Apply font-family styles */
+.product-title {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.product-price {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.product-description {
+    font-family: 'Lato', sans-serif;
+}
+
+.product-meta .badge {
+    font-family: 'Open Sans', sans-serif;
+}

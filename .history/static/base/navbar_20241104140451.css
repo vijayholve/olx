@@ -1,0 +1,326 @@
+/* Base Navbar Styling */
+.navbar, .nav-form {
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.navbar:hover {
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Brand Logo */
+.navbar .navbar-brand {
+  height: 50px;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.navbar .navbar-brand img {
+  max-height: 50px;
+  transition: transform 0.3s ease;
+}
+
+.navbar .navbar-brand:hover img {
+  transform: scale(1.1);
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #0056b3;
+  background-color: rgba(0, 123, 255, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+/* Dropdown Menu Styling */
+.navbar-nav .dropdown-menu {
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar-nav .dropdown-menu .dropdown-item {
+  color: white;
+  font-size: 1rem;
+  padding: 0.4rem 1.2rem;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover {
+  background-color: #444;
+  padding-left: 1.4rem;
+}
+
+/* Toggler Icon */
+.navbar-toggler-icon {
+  filter: brightness(0.3);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-toggler:hover .navbar-toggler-icon {
+  filter: brightness(0);
+  transform: rotate(90deg);
+}
+
+/* Search Bar Styling */
+.navbar .search-input {
+  width: 220px;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar .search-input:focus {
+  width: 260px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-color: #0056b3;
+}
+
+/* Button Styling */
+.navbar .btn-outline-success, .navbar .btn-create {
+  color: white;
+  background-color: #28a745;
+  font-weight: 500;
+  border-radius: 20px;
+  margin-left: 0.5rem;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.navbar .btn-outline-success:hover, .navbar .btn-create:hover {
+  color: #28a745;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Profile Dropdown */
+.navbar-nav .profile-dropdown {
+  padding-right: 0.5rem;
+}
+
+.navbar-nav .profile-dropdown img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.navbar-nav .profile-dropdown img:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+/* Advanced Animations */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-nav .dropdown:hover .dropdown-menu {
+  animation: dropdownFadeIn 0.3s ease forwards;
+}
+
+@keyframes buttonBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.navbar .btn-outline-success:hover, .navbar .btn-create:hover {
+  animation: buttonBounce 0.5s ease-in-out;
+}
+
+/* Enhanced Hover Effects for Links */
+.navbar-nav .nav-link:hover {
+  background: linear-gradient(135deg, #0056b3, #28a745);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  padding: 0.6rem 1.2rem;
+}
+
+/* Search Bar Glow */
+.navbar .search-input:focus {
+  box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Dropdown Menu Icons */
+.navbar-nav .dropdown-menu .dropdown-item:before {
+  content: '<>';
+  display: inline-block;
+  margin-right: 8px;
+  color: #28a745;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .dropdown-menu .dropdown-item:hover:before {
+  color: #0056b3;
+}
+
+/* Additional CSS for Smooth Dropdown */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .navbar .search-input {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+  }
+  
+  .navbar .btn-outline-success, .navbar .btn-create {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+}
+
+/* Smooth Background Transition on Scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .navbar {
+    transition: background-color 0.3s ease;
+  }
+
+  .navbar:hover {
+    background-color: #ffffff;
+  }
+}
+
+
+/* Gradient Background Animation */
+@keyframes navbarGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.navbar {
+  background-size: 400% 400%;
+  animation: navbarGradient 10s ease infinite;
+}
+/* Profile Badge Indicator */
+.navbar .profile-dropdown .profile-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: #dc3545; /* Red color for notifications */
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .profile-dropdown:hover .profile-badge {
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+}
+/* Custom Tooltip Styling */
+.navbar-nav .nav-link[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  animation: tooltipFadeIn 0.2s forwards;
+}
+
+/* Tooltip Animation */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -5px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+/* Pulse Animation for CTA Button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+.navbar .btn-create {
+  animation: pulse 2s infinite;
+}
+/* Floating Animation for Social Media Icons */
+.navbar .social-icon {
+  display: inline-block;
+  font-size: 1.5rem;
+  margin: 0 0.5rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navbar .social-icon:hover {
+  transform: translateY(-4px);
+  color: #007bff;
+}

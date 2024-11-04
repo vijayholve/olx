@@ -1,0 +1,102 @@
+/* ----- Global Styles ----- */
+body {
+    font-family: "Raleway", sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* ----- Product Detail Section ----- */
+.product-detail {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2em auto;
+    max-width: 1200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* ----- Photo Section ----- */
+.carousel-inner img {
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.photo-album {
+    margin-top: 1em;
+    display: flex;
+    justify-content: space-around;
+}
+
+.photo-album ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.photo-album li {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.photo-album img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.2s;
+}
+
+.photo-album img:hover {
+    transform: scale(1.1);
+}
+
+/* ----- Right Column Styles ----- */
+.right-column {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.product-title {
+    font-size: 2em;
+    font-weight: 700;
+    color: #4c4c4c;
+}
+
+.product-description {
+    margin: 1em 0;
+    font-size: 1.1em;
+    color: #666;
+}
+
+.config-item {
+    margin: 0.5em 0;
+    font-size: 1em;
+}
+
+.product-price {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ff3f40;
+    margin: 1.5em 0;
+}
+
+.btn-buy {
+    padding: 0.8em 1.5em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 600;
+    color: #fff;
+    background-color: #ff3f40;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-buy:hover {
+    background-color: #e63939;
+    transform: scale(1.05);
+}
