@@ -1,0 +1,22 @@
+<div class="plan-list">
+    {% for plan in plans %}
+    <div class="plan-card">
+        <h3>{{ plan.name }}</h3>
+        <p class="plan-type">{{ plan.plan_type }}</p>
+        <p class="price">${{ plan.price }}</p>
+        
+        <ul class="features">
+            {% for feature in plan.planfeature_set.all %}
+                <li>
+                    {% if feature.is_included %}
+                        <span class="check">&#10004;</span>
+                    {% else %}
+                        <span class="cross">&#10008;</span>
+                    {% endif %}
+                    {{ feature.feature.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>

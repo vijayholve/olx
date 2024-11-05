@@ -1,0 +1,77 @@
+body {
+    background-color: #f8f9fa; /* Light gray background for the entire page */
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.card {
+    border: none; /* Remove default border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+}
+
+.card-body {
+    background-color: #ffffff; /* White background for the card body */
+    padding: 20px; /* Extra padding for the card body */
+}
+
+.card-title {
+    font-size: 1.5rem; /* Increase font size for the card title */
+    color: #343a40; /* Darker text color */
+}
+
+.card-subtitle {
+    font-size: 1.2rem; /* Slightly larger font for the subtitle */
+    color: #6c757d; /* Gray color for the subtitle */
+}
+
+.card-text {
+    font-size: 1rem; /* Font size for the card text */
+    color: #495057; /* Darker gray for the price text */
+}
+
+.list-group-item {
+    background-color: transparent; /* Transparent background for list items */
+    border: none; /* Remove default borders */
+}
+
+.text-success {
+    font-size: 1.5rem; /* Larger check icon */
+}
+
+.text-danger {
+    font-size: 1.5rem; /* Larger cross icon */
+}
+
+.card-footer {
+    background-color: #f1f1f1; /* Light background for the footer */
+    border-top: 1px solid #e9ecef; /* Light border on top */
+}
+
+.btn {
+    padding: 10px 15px; /* Increase button padding */
+    font-size: 1rem; /* Set font size for buttons */
+    border-radius: 5px; /* Rounded button corners */
+}
+
+.btn-warning {
+    background-color: #ffc107; /* Custom warning color */
+    border: none; /* Remove border */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Custom danger color */
+    border: none; /* Remove border */
+}
+
+.btn:hover {
+    opacity: 0.9; /* Slightly reduce opacity on hover */
+}

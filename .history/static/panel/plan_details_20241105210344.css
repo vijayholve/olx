@@ -1,0 +1,57 @@
+.plan-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.plan-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);
+}
+
+.features {
+    list-style-type: none;
+    padding: 0;
+}
+
+.check {
+    color: green;
+    margin-right: 5px;
+}
+
+.cross {
+    color: red;
+    margin-right: 5px;
+}
+
+.action-buttons {
+    margin-top: 10px;
+}
+
+.btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.create-plan {
+    display: inline-block;
+    margin: 20px 0;
+}
