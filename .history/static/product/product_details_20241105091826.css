@@ -25,7 +25,9 @@
     margin: 2em auto;
     height: 96vh;
     padding: 2em;
+    background-color: var(--bg-light);
     border-radius: 20px;
+    /* box-shadow: var(--shadow-deep); */
     overflow: hidden;
     animation: fadeInContainer 1s ease-out;
 }
@@ -45,6 +47,7 @@
     overflow: hidden;
 }
 
+/* Image Carousel */
 .product-images {
     flex: 1 1 50%;
     position: relative;

@@ -45,6 +45,7 @@
     overflow: hidden;
 }
 
+/* Image Carousel */
 .product-images {
     flex: 1 1 50%;
     position: relative;

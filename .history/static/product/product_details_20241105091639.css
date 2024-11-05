@@ -25,7 +25,9 @@
     margin: 2em auto;
     height: 96vh;
     padding: 2em;
+    background-color: var(--bg-light);
     border-radius: 20px;
+    /* box-shadow: var(--shadow-deep); */
     overflow: hidden;
     animation: fadeInContainer 1s ease-out;
 }
@@ -40,11 +42,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2em;
-    /* background-color: #fff; */
+    background-color: #fff;
     border-radius: 20px;
     overflow: hidden;
 }
 
+/* Image Carousel */
 .product-images {
     flex: 1 1 50%;
     position: relative;
@@ -56,6 +59,7 @@
 .main-img {
     width: 100%;
     border-radius: 15px;
+    box-shadow: var(--shadow-deep);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     max-height: 500px;
     object-fit: cover;

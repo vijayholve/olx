@@ -44,7 +44,7 @@
                 <div class="info-item"><strong>Condition:</strong> {{ product.condition }}</div>
                 <div class="info-item"><strong>State:</strong> {{ product.state }}</div>
                 <div class="info-item"><strong>Active:</strong> {{ product.is_active|yesno:"Yes,No" }}</div>
-                {% comment %} <div class="info-item"><strong>Seller:</strong> {{ product.posted_by }}</div> {% endcomment %}
+                <div class="info-item"><strong>Seller:</strong> {{ product.posted_by }}</div>
             </div>
             <div class="product-price">$ {{ product.price }}</div>
             <button class="btn-buy">Add to Cart</button>

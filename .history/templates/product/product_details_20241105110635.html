@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="{% static 'product/product_details.css' %}?v={{time}}">
 {% comment %} <link rel="stylesheet" href="{% static 'product/product_carousel.css' %}?v={{time}}"> {% endcomment %}
 <link rel="stylesheet" href="{% static 'product/prod_car.css' %}">
-{% comment %} <link rel="stylesheet" href="{% static 'product/  .css' %}"> {% endcomment %}
+<link rel="stylesheet" href="{% static 'product/product2.css' %}">
 {% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans"> {% endcomment %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -44,7 +44,7 @@
                 <div class="info-item"><strong>Condition:</strong> {{ product.condition }}</div>
                 <div class="info-item"><strong>State:</strong> {{ product.state }}</div>
                 <div class="info-item"><strong>Active:</strong> {{ product.is_active|yesno:"Yes,No" }}</div>
-                {% comment %} <div class="info-item"><strong>Seller:</strong> {{ product.posted_by }}</div> {% endcomment %}
+                
             </div>
             <div class="product-price">$ {{ product.price }}</div>
             <button class="btn-buy">Add to Cart</button>
