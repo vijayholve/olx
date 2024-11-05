@@ -1,0 +1,67 @@
+{% extends 'base/main.html' %}
+{% load custom_filters %}
+{% block css_content %}
+{% load static %}
+<style>
+    #myPieChart {
+        max-width: 500px;
+        max-height: 500px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 20px;
+        margin:0 40% ;
+    }
+</style>
+{% endblock css_content %}
+
+{% block content %}
+<canvas id="myPieChart" width="500px" height="500px"></canvas>
+<br>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('myPieChart').getContext('2d');
+        
+        const myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: {{ all_states|safe }},  // Pass the state names
+                datasets: [{
+                    label: 'Product Count by State',
+                    data: {{ all_states_product_count|safe }},  // Pass the product counts
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

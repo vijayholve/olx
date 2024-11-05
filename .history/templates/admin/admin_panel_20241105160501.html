@@ -1,0 +1,44 @@
+
+<canvas id="myPieChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const ctx = document.getElementById('myPieChart').getContext('2d');
+                
+                const myPieChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Holidays : {{holidays_count}}',
+                         'Absent : {{attendance_absent_count}}', 
+                         'Present : {{attendance_present_count}}'],
+                        datasets: [{
+                            label: 'Attendance Overview',
+                            data: [{{ holidays_count }}, {{ attendance_absent_count }}, {{ attendance_present_count }}],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgb(255, 60, 65)',
+                                'rgb(76, 181, 254)',                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                enabled: true,
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+{% endblock %}
