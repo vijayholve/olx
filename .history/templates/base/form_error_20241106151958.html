@@ -1,0 +1,31 @@
+{% if user_form.errors %}
+    <div class="text-danger">
+        {% if user_form.non_field_errors %}
+            <ul class="messages">
+                {% for error in user_form.non_field_errors %}
+                    <li class="message error">
+                        <span class="icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </span>
+                        <span class="message-text">{{ error }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% for field in user_form %}
+            {% if field.errors %}
+                <ul class="messages">
+                    {% for error in field.errors %}
+                        <li class="message error">
+                            <span class="icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </span>
+                            <span class="message-text">{{ error }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}

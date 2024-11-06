@@ -1,0 +1,84 @@
+<form method="GET" action="{% url 'home' %}" id="categoryForm">
+  <input type="hidden" name="category" id="categoryInput">
+  <input type="hidden" name="condition" id="conditionInput">
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a href="{% url 'home' %}">
+      <img class="navbar-brand" src="media/base/download-removebg-preview.png">
+    </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" href="#" id="homeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              
+              {% if condition %}
+                {{condition}}
+              {% else %}
+                 Condition
+                {% endif %}
+                </a>
+            <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+              <li><a class="dropdown-item" href="#" onclick="submitCondition('')">Any</a></li>
+              <li><a class="dropdown-item" href="#" onclick="submitCondition('New')">New</a></li>
+              <li><a class="dropdown-item" href="#" onclick="submitCondition('Used')">Used</a></li>
+              <li><hr class="dropdown-divider"></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="linkDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if category %}
+                {{category}}
+              {% else %}
+                 
+              Category</a>
+              {% endif %}
+            <ul class="dropdown-menu" aria-labelledby="linkDropdown">
+              <li><a class="dropdown-item" href="#" onclick="submitCategory('')">All</a></li>
+              {% for cate in all_category %}
+              <li><a class="dropdown-item" href="#" onclick="submitCategory('{{ cate.name }}')">{{ cate.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+
+        <!-- Search Form and Create Product Button -->
+        <form method="GET" action="{% url 'home' %}" class="d-flex">
+          <input class="form-control me-2 search-input" type="search" name="search" value="{{ query }}" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+          <a href="{% url 'product_create_form' %}" class="btn btn-create">Create Product</a>
+        </form>
+
+        <!-- Profile Dropdown -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="path_to_profile_image" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" href="{% url 'login-page' %}">Login</a></li>
+              <li><a class="dropdown-item" href="{% url '        path('sales-report/', views.sales_report, name='sales_report'' %}">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</form>
+
+<script>
+  function submitCategory(category) {
+    document.getElementById('categoryInput').value = category;
+    document.getElementById('categoryForm').submit();
+  }
+
+  function submitCondition(condition) {
+    document.getElementById('conditionInput').value = condition;
+    document.getElementById('categoryForm').submit();
+  }
+</script>

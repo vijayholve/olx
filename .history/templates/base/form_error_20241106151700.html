@@ -1,0 +1,17 @@
+{% if user_form.errors %}
+            <div class="text-danger">{{ user_form.username.errors }}</div>
+      
+    <ul class="messages">
+        {% for error in user_form.errors %}
+            <li class="message {{ message.tags }}">
+                <span class="icon">
+                        <i class="fas fa-exclamation-circle">
+                            
+                        </i>
+                    
+                </span>
+                <span class="message-text">{{ message }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

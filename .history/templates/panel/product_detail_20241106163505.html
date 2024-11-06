@@ -1,0 +1,52 @@
+{% extends "base/main.html" %}
+
+{% block css_content %}
+    <style>
+        @font-face {
+            font-family: 'Pe-icon-7-stroke';
+            src: url('/static/fonts/Pe-icon-7-stroke.woff') format('woff'),
+                 url('/static/fonts/Pe-icon-7-stroke.ttf') format('truetype');
+        }
+    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{{ product.title }} - Product Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+{% endblock css_content %}
+
+{% block content %}
+    {% include "panel/panel_navbar.html" %}
+    <div class="container-fluid">
+        <div class="main-card mb-3 card">
+            <div class="card-header">{{ product.title }}
+                <div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm btn-group">
+                        <!-- Buttons for different actions can go here -->
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Product details -->
+                <h5>Description:</h5>
+                <p>{{ product.description }}</p>
+                <p><strong>Price:</strong> ${{ product.price }}</p>
+                <p><strong>Location:</strong> {{ product.location }}</p>
+                <p><strong>Condition:</strong> {{ product.get_condition_display }}</p>
+                <p><strong>State:</strong> {{ product.state.name }}</p>
+                <p><strong>Posted by:</strong> {{ product.posted_by.username }}</p>
+                <p><strong>Is Active:</strong> {% if product.is_active %}Yes{% else %}No{% endif %}</p>
+                <p><strong>Product Date Posted:</strong> {{ product.date_posted }}</p>
+
+                <!-- Display the first image associated with the product -->
+                {% if first_image %}
+                    <h5>Product Image:</h5>
+                    <img src="{{ first_image.image.url }}" alt="{{ product.title }} image" style="max-width: 100%; height: auto;">
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
