@@ -1,0 +1,78 @@
+{% extends 'base/main.html' %}
+
+{% load static %}
+{% block css_content %}
+    <link rel="stylesheet" href="{% static 'panel/plan_details.css' %}?v={{time}}">
+    <link href="https://demo.dashboardpack.com/architectui-html-free/main.css" rel="stylesheet"></head>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock css_content %}
+
+{% block content %}
+{% include 'panel/panel_navbar.html' %}
+<div class="container mt-4">
+    <h2 class="text-center">Available Plans</h2>
+    
+    {% comment %} <div class="form-group">
+        <label for="planFilter">Filter Plans</label>
+        <select id="planFilter" class="form-control" onchange="filterPlans()">
+            <option value="">All Plans</option>
+            <option value="basic">Basic</option>
+            <option value="premium">Premium</option>
+            <option value="enterprise">Enterprise</option>
+        </select>
+    </div> {% endcomment %}
+
+    <a href="{% url 'plan-create' %}" class="btn btn-primary mb-3">Create New Plan</a>
+
+    <div class="row">
+        {% for plan in plans %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ plan.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ plan.plan_type }}</h6>
+                    <p class="card-text"><strong>Price:</strong> ${{ plan.price }}</p>
+                    
+                    <ul class="list-group list-group-flush">
+                        {% for feature in plan.planfeature_set.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {% if feature.included %}
+                                <span class="text-success">&#10004;</span>
+                            {% else %}
+                                <span class="text-danger">&#10008;</span>
+                            {% endif %}
+                            {{ feature.feature.name }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="url" class="btn btn-warning">Update</a>
+                    <form action="" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this plan?');">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function filterPlans() {
+    const filterValue = document.getElementById('planFilter').value;
+    const planCards = document.querySelectorAll('.card');
+
+    planCards.forEach(card => {
+        if (filterValue === '' || card.querySelector('.card-subtitle').textContent.toLowerCase() === filterValue) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+{% endblock %}
+

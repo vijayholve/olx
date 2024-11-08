@@ -1,0 +1,8 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+        path('_state/', views.state_details, name='details_state'),
+    path('create_state/', views.create_state, name='create_state'),
+    # Add other paths for the different forms
+]
