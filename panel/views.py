@@ -48,7 +48,7 @@ def admin_panel(request):
 @login_required(login_url='login-page')
 def plan_list(request):
     plans = Plan.objects.prefetch_related('planfeature_set__feature').filter(blocked=False).order_by('-id')
-    category = Category.objects.all()  # Added category context
+    category = Category.objects.filter(blocked=False)  # Added category context
     return render(request, 'panel/plan_details.html', {'plans': plans, 'category': category})
 
 @login_required(login_url='login-page')
@@ -57,6 +57,8 @@ def plan_delete():
 
 @login_required(login_url='login-page')
 def sales_report(request):
+    if not request.user.is_staff:
+        return redirect('home')
     orders = Order.objects.filter(blocked=False)
 
     # Aggregate sales data by month

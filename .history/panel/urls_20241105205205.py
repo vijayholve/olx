@@ -1,9 +1,0 @@
-from django.urls import path
-from . import views 
-
-urlpatterns = [
-    path('admin-panel/',views.admin_panel,name="admin-panel"),
-    path('plan-detail/',views.plan_detail,name="plan)
-
-]
-

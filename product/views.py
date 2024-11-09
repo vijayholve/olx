@@ -53,7 +53,7 @@ def home(request):
         products = Product.objects.filter(condition=condition)
         context1['condition'] = condition
     else:
-        products = Product.objects.all()
+        products = Product.objects.filter(blocked=False)
 
     productimage = {}
     for product in products:
@@ -61,7 +61,7 @@ def home(request):
             productimage[product.id] = image.image  # Store each product's image in the dictionary
 
     # Get all categories for the dropdown or filter options
-    all_category = Category.objects.all()
+    all_category = Category.objects.filter(blocked=False)
 
     # Prepare context for rendering the template
     context = {
@@ -109,7 +109,7 @@ def product_create_form(request):
 @login_required(login_url='login-page')
 def product_details(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    suggested_products = Product.objects.all().exclude(id=product.id)[:9]  # Fetch up to 9 suggested products
+    suggested_products = Product.objects.all().exclude(id=product.id, blocked=False,category__blocked=False)[:9]  # Fetch up to 9 suggested products
     first_image=ProductImage.objects.filter(product=product).first()
     grouped_suggested_products = [
         list(filter(None, group)) for group in zip_longest(*[iter(suggested_products)]*4)

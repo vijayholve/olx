@@ -187,7 +187,7 @@ def update_feature(request, pk):
             return redirect('details_feature')
     else:
         form = FeaturesForm(instance=feature)
-    return render(request, 'other/update_feature.html', {'form': form, 'category': category})
+    return render(request, 'other/update_features.html', {'form': form, 'category': category})
 
 @login_required(login_url="login-page")
 def delete_feature(request, pk):

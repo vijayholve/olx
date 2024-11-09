@@ -58,8 +58,15 @@
             <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="/media/pngtree-man-avatar-image-for-profile-png-image_13001882.png" alt="Profile" class="rounded-circle" style="width: 30px; height: 30px;">
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                <li><a class="dropdown-item" href="{% url 'login-page' %}">Login</a></li>
+                {% comment %} <li><a class="dropdown-item" href="{% url 'login-page' %}">Login</a></li> {% endcomment %}
+                {% if request.user.is_staff %}
+                
                 <li><a class="dropdown-item" href="{% url 'sales_report' %}">Profile</a></li>
+                {% else %}
+                <li><a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a></li>
+
+                {% endif %}
+                
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
               </ul>

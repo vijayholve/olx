@@ -5,7 +5,7 @@ import uuid
 #here is we add blocked insted of delete tables we just blocked
 class Customer(models.Model):
     name = models.CharField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.CASCADE) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="customer") 
     phone_no = models.CharField(max_length=15) 
     email = models.EmailField(max_length=100)
     address = models.CharField(max_length=255)

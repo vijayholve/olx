@@ -28,7 +28,6 @@ class Command(BaseCommand):
                 verified_type=random.choice(['verified', 'unverified', 'most viewed'])
             )
 
-        # Step 3: Create Products
         states = State.objects.all()
         categories = Category.objects.all()
         for _ in range(100):
