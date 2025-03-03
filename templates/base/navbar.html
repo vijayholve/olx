@@ -21,9 +21,9 @@
                  Condition
                 {% endif %}
                 </a>
-            <ul class="dropdown-menu" aria-labelledby="homeDropdown">
-              <li><a class="dropdown-item" href="#" onclick="submitCondition('')">Any</a></li>
-              <li><a class="dropdown-item" href="#" onclick="submitCondition('New')">New</a></li>
+          <ul class="dropdown-menu" aria-labelledby="homeDropdown">
+            <li><a class="dropdown-item" href="#" onclick="submitCondition('')">Any</a></li>
+            <li><a class="dropdown-item" href="#" onclick="submitCondition('New')">New</a></li>
               <li><a class="dropdown-item" href="#" onclick="submitCondition('Used')">Used</a></li>
               <li><hr class="dropdown-divider"></li>
             </ul>
@@ -49,7 +49,7 @@
         <form method="GET" action="{% url 'home' %}" class="d-flex">
           <input class="form-control me-2 search-input" type="search" name="search" value="{{ query }}" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
-          <a href="{% url 'product_create_form' %}" class="btn btn-create">Create Product</a>
+          {% comment %} <a href="{% url 'product_create_form' %}" class="btn btn-create">Create Product</a> {% endcomment %}
         </form>
 
         <!-- Profile Dropdown -->
@@ -63,11 +63,15 @@
                 
                 <li><a class="dropdown-item" href="{% url 'sales_report' %}">Profile</a></li>
                 {% else %}
-                <li><a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a></li>
-
+                        {% if request.user.customer %} 
+                          <li><a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a></li>
+                      {% else %}
+                          <!-- If the user does not have a customer profile -->
+                          create customer
+                          {% comment %} <li><a class="dropdown-item" href="{% url 'create-customer-profile' %}">Create Profile</a></li> {% endcomment %}
+                      {% endif %}
                 {% endif %}
                 
-                <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
               </ul>
             </a>

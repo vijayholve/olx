@@ -1,0 +1,91 @@
+{% extends 'base/main.html' %}
+
+{% block css_content %}
+  <style>
+    @font-face {
+      font-family: 'Pe-icon-7-stroke';
+      src: url('/static/fonts/Pe-icon-7-stroke.woff') format('woff'), url('/static/fonts/Pe-icon-7-stroke.ttf') format('truetype');
+    }
+  </style>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Language" content="en" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Products Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+  <meta name="description" content="This is an example dashboard created using build-in elements and components." />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <link href="https://demo.dashboardpack.com/architectui-html-free/main.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  //
+
+  <!-- Create Product Button -->
+  <div class="container-fluid">
+    <div class="sidebar">
+      {% include 'panel/panel_navbar.html' %}
+    </div>
+    <div class="container-fluid mb-3">
+      <a href="{% url 'product_create_form' %}" class="btn btn-primary">Create New Product</a>
+    </div>
+
+    <div class="main-card mb-3 card">
+      <div class="card-header">
+        Products<div class="btn-actions-pane-right">
+          <div role="group" class="btn-group-sm btn-group">
+            <!-- Optionally add buttons for filters or actions -->
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="align-middle mb-0 table table-borderless table-striped table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th class="text-center">Product Title</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Category</th>
+              <th class="text-center">Condition</th>
+              <th class="text-center">Posted By</th>
+              <th class="text-center">Date Posted</th>
+              <th class="text-center">Image</th>
+              <th class="text-center">Operations</th> <!-- Operation Column -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in products %}
+              <tr>
+                <td class="text-center">{{ product.id }}</td>
+                <td class="text-center">{{ product.title }}</td>
+                <td class="text-center">${{ product.price }}</td>
+                <td class="text-center">{{ product.category.name }}</td>
+                <td class="text-center">
+                  <div class="badge badge-warning">{{ product.get_condition_display }}</div>
+                </td>
+                <td class="text-center">{{ product.posted_by.username }}</td>
+                <td class="text-center">{{ product.date_posted }}</td>
+                <td class="text-center">
+                  {% if product.images.first %}
+                    <img src="{{ product.images.first.image.url }}" alt="{{ product.title }} image" style="max-width: 100px; height: auto;" />
+                  {% else %}
+                    <p>No image</p>
+                  {% endif %}
+                </td>
+                <td class="text-center">
+                  <!-- Edit and Delete Operations -->
+                  <a href="{% url 'product-update' product.id %}" class="btn btn-info btn-sm">Edit</a>
+                  <a href="{% url 'product-delete' product.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-block text-center card-footer">
+        <button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger"><i class="pe-7s-trash btn-icon-wrapper"></i></button>
+        <button class="btn-wide btn btn-success">Save</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}

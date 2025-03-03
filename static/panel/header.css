@@ -1,0 +1,116 @@
+/* Ensure body doesn't go under the navbar */
+body {
+    padding-top: 70px; /* Adjust based on navbar height */
+    background-color: #fbfbfb;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    top: 70px; /* Push it below the fixed navbar */
+    left: 0;
+    height: calc(100vh - 70px); /* Full height minus navbar */
+    width: 240px;
+    background-color: #343a40;
+    color: white;
+    overflow-y: auto;
+    overflow-y: auto; 
+    top: 0;
+    z-index: 600;
+}
+
+
+/* Adjust main content to not overlap with sidebar */
+main {
+    margin-left: 240px; /* Same as sidebar width */
+}
+
+/* Responsive: Sidebar should disappear on smaller screens */
+@media (max-width: 991px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+    }
+
+    main {
+        margin-left: 0;
+    }
+}
+
+/* Responsive: Sidebar should disappear on smaller screens */
+
+
+.sidebar .list-group-item {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    transition: 0.3s ease;
+}
+
+.sidebar .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 4px solid #007bff; /* Highlight active item */
+}
+
+/* Active sidebar item */
+.sidebar .list-group-item.active {
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 991px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+    }
+
+    main {
+        margin-left: 0;
+    }
+}
+/* === Navbar Styles === */
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+    height: 40px;
+    border-radius: 50%;
+}
+
+.navbar-toggler {
+    border: none;
+    font-size: 20px;
+}
+
+/* Search Box */
+.navbar .form-control {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+.navbar .btn-outline-primary {
+    border-radius: 20px;
+}
+
+/* User Dropdown Menu */
+.navbar .dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Ensure the main content starts below the fixed navbar */
+main {
+    padding-top: 70px; /* Adjust based on the navbar height */
+}

@@ -2,9 +2,9 @@
 {% load custom_filters %}
 {% block css_content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'product/product_details.css' %}?v={{time}}">
+<link rel="stylesheet" href="{% static 'product/product_details.css' %}">
 {% comment %} <link rel="stylesheet" href="{% static 'product/product_carousel.css' %}?v={{time}}"> {% endcomment %}
-<link rel="stylesheet" href="{% static 'product/prod_car.css' %}">
+<link rel="stylesheet" href="{% static 'product/prod_car.css' %}?v={{time}}">
 {% comment %} <link rel="stylesheet" href="{% static 'product/  .css' %}"> {% endcomment %}
 {% comment %} <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans"> {% endcomment %}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -47,7 +47,7 @@
                 {% comment %} <div class="info-item"><strong>Seller:</strong> {{ product.posted_by }}</div> {% endcomment %}
             </div>
             <div class="product-price">$ {{ product.price }}</div>
-            <button class="btn-buy">Add to Cart</button>
+            <button class="btn-buy">Send message</button>
         </div>
     </div>
 </div>

@@ -1,0 +1,438 @@
+PROJECT
+
+ON
+
+“CCH FORENSICS TOOLKIT
+UIUX
+& FRONTEND”
+
+SUBMITTED TO
+
+CYBER CRIME HELPLINE LLP
+
+
+DATE OF SUBMISSION:14/11/2024		 FULL NAME: ANAND SACHIN GAIKWAD
+MOBILE NUMBER: 9370150563
+AADHAR CARD NO. 7832 6086 0521
+
+
+
+
+A. Aim
+The aim of this project is to develop a user-friendly, highly functional UI/UX for a digital forensics application, named CCH Forensics Toolkit. This toolkit will assist Cyber Crime Helpline LLP in conducting various forensic tasks, including file hashing, metadata analysis, system auditing, and log extraction. By integrating these processes within a cohesive and visually effective interface, the toolkit aims to streamline cyber investigations, data gathering, and evidence preservation in digital forensics.
+
+
+B. Introduction
+The CCH Forensics Toolkit is an integrated digital forensics application created for Cyber Crime Helpline LLP. It automates essential cyber forensic processes such as file hashing, metadata extraction, log file analysis, and data extraction. Built with Python’s Tkinter library for its graphical user interface, this toolkit provides investigators with the necessary tools to efficiently analyze and gather digital evidence. The toolkit leverages standalone forensic executable files for fast, reliable analysis while ensuring the data’s integrity is preserved and stored in a structured format for legal and investigative use.
+
+This project focuses on delivering a user-friendly, efficient, and tailored toolkit that aids in handling critical forensic tasks seamlessly. The design prioritizes accessibility, operational efficiency, and data reliability, particularly beneficial for field-based cyber investigations.
+
+
+
+
+
+C. Requirements
+
+Hardware Requirements:
+- Processor: Intel Core i5 or above
+- RAM: Minimum 4 GB
+- Storage: At least 100 MB of free space
+- Operating System: Windows 10 or later
+
+Software Requirements:
+- Programming Language: Python 3.x
+- Libraries: Tkinter, Pillow (PIL) for image handling, subprocess, os
+- Forensic Tools: Executable files for forensic tasks (e.g., `Hash.exe`, `MetaData.exe`)
+- Image Editing Software: (Optional) Photoshop, Paint, or similar software for logo customization and editing
+
+Required Installations
+•	Pillow (mandatory for image handling)
+•	Pandas (optional, depending on your data manipulation needs)
+•	NumPy (optional, useful for numerical computations)
+•	Requests (optional, for API interactions)
+•	Matplotlib (optional, for future data visualization needs)
+
+
+
+
+
+
+
+D. Methodology
+
+1. Designing the User Interface (UI/UX):
+- The interface was crafted using Python’s Tkinter library, offering a structured layout with sections dedicated to each forensic task (hashing, metadata extraction, auditing, etc.). The toolkit’s layout was optimized for ease of use and visibility, featuring grid-based button placement.
+- Customization Features:
+- Buttons: Styled with custom gradient effects for better interactivity and a polished appearance.
+- Logos: Company branding integrated using Pillow, maintaining visual consistency.
+- Scrolling Marquee: A marquee bar at the bottom of the UI continuously displays important messages to users.
+
+2. Functional Button Implementation:
+- Each button links to a specific .exe file representing a forensic task. Upon button click, the respective executable is triggered using Python’s `subprocess` module, and output is stored in a designated results folder.
+- Folder Selection: The "Data Folder" button allows users to select a directory, making it simple to designate input files for forensic processing.
+
+3. Handling and Organizing Results:
+- The output generated from each forensic tool (e.g., hashing, metadata extraction) is saved in a dynamically created “Results” folder, named based on the computer’s identification. This folder can be accessed via the "Results Folder" button, enhancing the toolkit’s ease of organization and evidence storage.
+- Dynamic Folder Creation: Through Python’s `os` module, the results folder is automatically created if absent, minimizing setup effort for users.
+
+4. Ensuring Smooth Execution with Error Handling:
+- The toolkit includes error management to alert users if any task encounters an issue, preventing the application from crashing and ensuring users are informed of the status of each forensic process.
+
+5. Visual Customization for Professional Appearance:
+- For a professional look, fonts, colors, and logos were meticulously selected, yielding a sleek and cohesive UI. The design prioritizes clarity, making it accessible and intuitive for users conducting time-sensitive forensic work.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+E. Source Code
+```python
+import sys
+import os
+import subprocess
+import tkinter as tk
+from tkinter import messagebox, filedialog
+from PIL import Image, ImageTk  # Make sure PIL is installed: pip install Pillow
+import json
+
+# Load configuration from a JSON file
+def load_config():
+try:
+with open('config.json', 'r') as f:
+return json.load(f)
+except FileNotFoundError:
+messagebox.showerror("Error", "Configuration file not found.")
+sys.exit()
+except json.JSONDecodeError:
+messagebox.showerror("Error", "Error reading configuration file.")
+sys.exit()
+
+# Function to find a file in multiple potential paths
+def find_file(filename):
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+potential_paths = [
+os.path.join(current_directory, 'src', filename),
+os.path.join(current_directory, '', filename),
+os.path.join(current_directory, filename),
+filename,
+os.path.join(os.getenv('USERPROFILE'), filename),
+os.path.join('E:\\CYBERCRIMEHELPLINE', filename)
+]
+
+for path in potential_paths:
+if os.path.isfile(path):
+return path
+
+raise FileNotFoundError(f"{filename} not found in any of the specified paths.")
+
+def get_script_dir():
+if getattr(sys, 'frozen', False):  # Check if running as an EXE
+return sys._MEIPASS  # PyInstaller uses this for the temporary folder path
+else:
+return os.path.dirname(os.path.abspath(__file__))
+
+def find_and_execute_exe(exe_name, task_name):
+# Adjust the directory to account for EXE or script path
+base_dir = get_script_dir()
+
+AllExeFiles = os.path.join(base_dir, 'AllExeFiles')
+exe_path = os.path.join(AllExeFiles, exe_name)
+
+if not os.path.isfile(exe_path):
+messagebox.showerror("Error", f"{exe_name} not found at {exe_path}.")
+return
+
+# Ensure RESULTS_folder is based in the script’s directory
+computer_name = os.getenv("COMPUTERNAME")
+pendrive_path = 'E:\\COMPUTERNAME'
+RESULTS_folder = os.path.join(pendrive_path, computer_name)
+os.makedirs(RESULTS_folder, exist_ok=True)
+
+# Create the RESULTS file path
+RESULTS_file = os.path.join(RESULTS_folder, f"{task_name}_results.txt")
+
+# Update command to redirect output to RESULTS_file
+command = f'"{exe_path}" > "{RESULTS_file}" 2>&1'
+
+# Debugging: Print command for verification
+print(f"Executing command: {command}")
+
+try:
+# Start the process
+subprocess.Popen(command, shell=True, cwd=AllExeFiles)
+messagebox.showinfo("Success", f"{task_name} process started. RESULTS saved to: {RESULTS_file}")
+except Exception as e:
+messagebox.showerror("Error", f"Error executing {task_name} process: {str(e)}")
+
+# Function to open the RESULTS folder
+def open_RESULTS_folder():
+computer_name = os.getenv("COMPUTERNAME")
+pendrive_path = 'E:\\COMPUTERNAME'
+RESULTS_folder = os.path.join(pendrive_path, computer_name)
+
+if not os.path.exists(RESULTS_folder):
+try:
+os.makedirs(RESULTS_folder)
+messagebox.showinfo("Info", f"RESULTS folder created: {RESULTS_folder}")
+except Exception as e:
+messagebox.showerror("Error", f"Failed to create RESULTS folder: {str(e)}")
+return
+
+subprocess.Popen(f'explorer "{RESULTS_folder}"')
+
+# Custom GradientButton class for styled buttons
+class GradientButton(tk.Frame):
+def __init__(self, parent, text, command=None, width=20):
+super().__init__(parent, bg="#000000")
+
+self.button = tk.Button(self, text=text, command=command,
+font=("Comic Sans MS", 12, "bold"),
+bg="#FFEB3B", fg="black",
+borderwidth=0, padx=12, pady=12,
+activebackground="#FFD54F",
+highlightthickness=0,
+relief="flat",
+width=width,
+anchor='center')
+
+self.button.pack(expand=True, fill='both')
+self.button.bind("<Enter>", self.on_hover)
+self.button.bind("<Leave>", self.on_leave)
+self.button.bind("<ButtonPress>", self.on_click)
+self.button.bind("<ButtonRelease>", self.on_release)
+
+def on_hover(self, event):
+self.button.config(bg="#FFD54F")
+
+def on_leave(self, event):
+self.button.config(bg="#FFEB3B")
+
+def on_click(self, event):
+self.button.config(bg="#FFC107")
+
+def on_release(self, event):
+self.button.config(bg="#FFD54F")
+
+# Function to browse folders
+def browse_folder(folder_type):
+folder_path = filedialog.askdirectory()
+if folder_path:
+messagebox.showinfo(f"{folder_type} Folder Selected", f"You selected: {folder_path}")
+
+# Function to confirm exit
+def confirm_exit():
+if messagebox.askokcancel("Quit", "Do you really want to quit?"):
+root.destroy()
+
+# Updated function for DATA FOLDER to fetch selected file for Hash and Meta Data
+def data_folder_function():
+# Open a file dialog to select a file
+selected_file = filedialog.askopenfilename()
+if selected_file:
+# Call the hash and meta data functions for the selected file
+find_and_execute_exe("HASH VALUE.exe", "Hash Value")
+find_and_execute_exe("META DATA.exe", "Meta Data")
+
+# Create the main window
+root = tk.Tk()
+root.title("Cyber Crime Helpline LLP - Digital Forensics Tool")
+
+# Disable window resizing
+root.resizable(False, False)
+
+# Adjusting window size
+top_margin = 100
+bottom_margin = 100
+left_margin = 150
+right_margin = 150
+
+root.geometry(f"{1400 - left_margin - right_margin}x{900 - top_margin - bottom_margin}")
+root.configure(bg="#000000")
+
+# Configure grid layout
+for i in range(3):
+root.grid_columnconfigure(i, weight=1)
+
+# Title and Subtitle Labels
+title_label = tk.Label(root, text="CYBER CRIME HELPLINE LLP", font=("Comic Sans MS", 32, "bold"), fg="red", bg="#000000")
+title_label.grid(row=0, column=0, columnspan=3, pady=(22, 5), sticky="n")
+
+subtitle_label = tk.Label(root, text="DIGITAL FORENSICS TOOLKIT", font=("Comic Sans MS", 22, "bold"), fg="#F7F7F7", bg="#000000")
+subtitle_label.grid(row=1, column=0, columnspan=3, pady=(0, 5), sticky="n")
+
+# Load and display logo
+try:
+left_image_path = find_file('cchlogo.jpg')
+left_image = Image.open(left_image_path)
+except FileNotFoundError as e:
+messagebox.showerror("Error", str(e))
+root.quit()
+
+left_logo = ImageTk.PhotoImage(left_image)
+left_logo_label = tk.Label(root, image=left_logo, bg="#000000")
+left_logo_label.grid(row=0, column=0, sticky="nw", padx=(30, 0), pady=(15, 0))
+
+# Dashed line above folder buttons
+top_dashed_line = tk.Label(root, text="===================================================================",
+font=("Comic Sans MS", 12, "bold"), fg="white", bg="#000000")
+top_dashed_line.grid(row=5, column=0, columnspan=3, pady=(20, 5), sticky="nsew")
+
+# Button Data
+button_data = [
+("HASH VALUE", "Hash Value.exe"),
+("META DATA", "Meta Data.exe"),
+("WINDOWS AUDIT", "Windows Audit.exe"),
+("ACTIVITY DETAILS", "Activity Details.exe"),
+("WIRELESS DETAILS", "Wireless Details.exe"),
+("SERVER AUDIT", "Server Audit.exe"),
+("BROWSER FORENSICS", "Browser Forensics.exe"),
+("FILES EXTRACTION", "Files Extraction.exe"),
+("COMPLETE FORENSICS", "Complete Forensics.exe")
+]
+
+# Set width for all buttons in button_data
+button_width = 15
+
+# Create buttons in a grid
+for index, (text, exe_name) in enumerate(button_data):
+row = index // 3
+col = index % 3
+
+button_frame = tk.Frame(root, bg="black")
+button_frame.grid(row=row + 2, column=col, padx=10, pady=10, sticky="nsew")
+
+button = GradientButton(button_frame, text,
+command=lambda exe_name=exe_name, text=text: find_and_execute_exe(exe_name, text),
+width=button_width)
+button.button.config(font=("Comic Sans MS", 12, "bold"), padx=8, pady=8)
+button.pack(expand=True, fill='both')
+
+# Frame to hold the DATA FOLDER and RESULTS FOLDER buttons side by side
+folders_frame = tk.Frame(root, bg="#000000")
+folders_frame.grid(row=6, column=0, columnspan=3, pady=(30, 10))
+
+# Updated DATA FOLDER button with new function
+data_folder_button = GradientButton(folders_frame, "DATA FOLDER", command=data_folder_function, width=20)
+data_folder_button.pack(side="left", padx=10, fill='both')
+
+# RESULTS FOLDER button
+results_folder_button = GradientButton(folders_frame, "RESULTS FOLDER", command=open_RESULTS_folder, width=20)
+results_folder_button.pack(side="left", padx=10, fill='both')
+
+# Bottom dashed line
+bottom_dashed_line = tk.Label(root, text="===================================================================",
+font=("Comic Sans MS", 12, "bold"), fg="white", bg="#000000")
+bottom_dashed_line.grid(row=7, column=0, columnspan=3, pady=(20, 5), sticky="nsew")
+
+# Smooth marquee scroll function
+def smooth_marquee_scroll():
+current_x = marquee_label.winfo_x()
+
+# If the text has fully moved off the left side, reset it to the right side
+if current_x < -marquee_label.winfo_width():
+marquee_label.place(x=root.winfo_width())
+else:
+marquee_label.place(x=current_x - 2)  # Move 2 pixels to the left for smooth scrolling
+
+root.after(50, smooth_marquee_scroll)  # Adjust timing for smoothness (20ms interval)
+
+# Updated marquee configuration using pixel-based scrolling
+marquee_text = "THIS IS A PROPRIETARY TOOL OF CYBER CRIME HELPLINE LLP. FOR COURSES AND INVESTIGATIONS, WHATSAPP ON +91 9595427200.THIS IS A PROPRIETARY TOOL OF CYBER CRIME HELPLINE LLP. FOR COURSES AND INVESTIGATIONS, WHATSAPP ON +91 9595427200.  " * 3
+marquee_label = tk.Label(root, text=marquee_text, font=("Comic Sans MS", 18, "bold"), fg="white", bg="#000000", anchor='w')
+
+# Set the initial position of the marquee label outside the visible area on the right
+marquee_label.place(x=root.winfo_width(), y=650)  # Adjust y as per your grid or layout
+smooth_marquee_scroll()
+
+# Start the Tkinter main loop
+root.mainloop()
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+F. EXAMPLE PICTURES
+1. User Interface (UI)
+   ![UI](path/to/screenshot)
+   Figure : The User Interface showing forensic task buttons.
+ 
+
+2. Hashing Output
+   ![Hashing](path/to/screenshot)
+   Figure : Example of the hashing process output.
+
+
+ 
+3. Data Folder
+![Data Folder](path/to/screenshot)
+Figure : The Data Folder button is intended for users to select a directory where the input data for the forensic tools is located.
+ 
+
+3. Results Folder
+   ![Results Folder](path/to/screenshot)
+   Figure 3: Automatically generated results folder based on the computer name.
+ 
+
+
+
+
+The process of creating an executable using PyInstaller involves several steps, which are detailed below:
+
+# Step 1: Install Python
+If Python is not already installed on your system, download and install it from the [official Python website](https://www.python.org/downloads/).
+
+# Step 2: Install PyInstaller
+Open your command line interface (Command Prompt on Windows, Terminal on Mac/Linux) and execute the following command:
+
+``cmd
+pip install pyinstaller
+```
+
+# Step 3: Prepare Your Python Script
+Ensure your Python script is functioning correctly. For this report, we will refer to the script as CCH.py.
+
+# Step 4: Using PyInstaller
+To create an executable, navigate to the directory containing your script using the command line. You can use the following commands based on your requirements:
+
+Command 1: Basic Executable Creation
+```cmd
+pyinstaller --onefile --console --add-data " C:\Users\anand\Desktop\CYBERCRIMEHELPLINE;." --add-data " C:\Users\anand\Desktop\CYBERCRIMEHELPLINE;." CCH.py
+```
+This command creates a single executable file. The `--add-data` option allows you to include additional files necessary for your script. Each additional file is specified with its path followed by a semicolon (`;`) and a dot (`.`) which indicates the current directory.
+
+Command 2: Executable with an Icon
+```cmd
+pyinstaller --onefile --console --add-data " C:\Users\anand\Desktop\CYBERCRIMEHELPLINE;." --icon=" "C:\Users\anand\Downloads\intelligence.ico" "CCH.py
+```
+This command similarly creates a standalone executable, but also specifies an icon for the application using the `--icon` option.
+
+
+
+
+
+G. Summary of Project in Brief
+This project involved developing the CCH Forensics Toolkit, a Python-based digital forensics application designed for Cyber Crime Helpline LLP. Using Tkinter for the UI and Python’s subprocess module, the toolkit integrates standalone forensic executables for efficient evidence processing. The interface allows users to initiate forensic tasks, with results stored in a centralized folder. Custom button designs, integrated logos, and error handling enhance usability, while a scrolling marquee provides continuous updates. The toolkit thus supports cybercrime investigations with an effective and well-structured digital forensic tool.

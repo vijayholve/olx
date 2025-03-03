@@ -24,7 +24,7 @@ def admin_panel(request):
             State.objects.filter(blocked=False)
             .annotate(product_count=Count('product'))
             .values('name', 'product_count')
-        )
+        ) 
 
         all_states = []
         all_states_product_count = []
@@ -60,8 +60,6 @@ def sales_report(request):
     if not request.user.is_staff:
         return redirect('home')
     orders = Order.objects.filter(blocked=False)
-
-    # Aggregate sales data by month
     monthly_sales = (
         Order.objects
         .filter(blocked=False)
@@ -158,7 +156,6 @@ def product_condition_detail(request, condition):
     category = Category.objects.filter(blocked=False)  # Added category context
     products = Product.objects.filter(blocked=False, condition=condition)
     return render(request, 'panel/product_detail.html', {'products': products, 'category': category})
-def navbar(request):
-    category = Category.objects.filter(blocked=False) 
-    return render(request, 'panel\panel_navbar.html', {'category': category})
+
+
 

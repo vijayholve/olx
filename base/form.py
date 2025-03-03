@@ -3,12 +3,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 from django import forms
 from product.models import Customer
-class resigration_Form(UserCreationForm):
+class RegistrationForm(UserCreationForm):
     class Meta:
         model = User 
         fields = ('username', 'email', 'password1', 'password2')
     def __init__(self, *args, **kwargs):
-        super(resigration_Form, self).__init__(*args, **kwargs)
+        super(RegistrationForm, self).__init__(*args, **kwargs)
         
         # Adding placeholders for text fields
         self.fields['username'].widget.attrs['placeholder'] = 'Enter username'

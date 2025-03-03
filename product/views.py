@@ -22,22 +22,7 @@ def home(request):
     category = request.GET.get('category', '')
     query = request.GET.get('search', '')
     condition=request.GET.get('condition', '')
-    # if  query and category and condition:
-    #     products = Product.objects.filter(
-    #         Q(title__icontains=query) | 
-    #         Q(category__name__icontains=query)
-    #     ).filter(category__name=category, condition=condition)
-    # elif query and condition:
-    #     products = Product.objects.filter(
-    #         Q(title__icontains=query) | 
-    #         Q(category__name__icontains=query)
-    #     ).filter(condition=condition)
-
-    # elif query and category:
-    #     products = Product.objects.filter(
-    #         Q(title__icontains=query) | 
-    #         Q(category__name__icontains=query)
-    #     ).filter(category__name=category)
+    
     context1={}
     if query:
         products = Product.objects.filter(
@@ -58,17 +43,13 @@ def home(request):
     productimage = {}
     for product in products:
         if image := ProductImage.objects.filter(product=product).first():
-            productimage[product.id] = image.image  # Store each product's image in the dictionary
-
-    # Get all categories for the dropdown or filter options
+            productimage[product.id] = image.image  
     all_category = Category.objects.filter(blocked=False)
-
-    # Prepare context for rendering the template
     context = {
         'products': products,
         'productimage': productimage,
         'all_category': all_category,
-        'query': query,  # Pass the query back to the template to retain the search input
+        'query': query,  
     }
     context.update(context1)
     return render(request, "product/home.html", context)

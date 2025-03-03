@@ -24,6 +24,7 @@ crossorigin="anonymous">
 {% include "base/navbar.html" %}
 <div class="products-container">
     <div class="products-list row">
+        
         {% for product in products %}
         <div class="col-lg-4 col-md-6 mb-4">  <!-- Responsive column setup -->
             <a href="{% url 'product_details' product.id %}" style="text-decoration: none;">
