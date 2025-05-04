@@ -62,7 +62,7 @@ def update_plan(request,plan_id):
             selected_features = features_form.cleaned_data['features'] 
             
             # Debugging: Check if selected features are correct
-            print("Selected features:", selected_features)
+            # print("Selected features:", selected_features)
             
             # Ensure features are added to the plan
             for feature in selected_features:

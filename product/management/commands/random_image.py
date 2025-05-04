@@ -32,7 +32,7 @@ class Command(BaseCommand):
             while existing_images < 4:
                 # Select a random image file from the directory
                 image_file = random.choice(image_files)
-                print(f"Selected image: {image_file}")
+                # print(f"Selected image: {image_file}")
                 image_path = os.path.join(image_directory, image_file)
 
                 try:
@@ -43,11 +43,10 @@ class Command(BaseCommand):
                         product_image.image.save(image_file, File(img), save=True)  # This will store the image
 
                         # Check if the image is properly saved
-                        if product_image.image:
-                            print(f"Image {image_file} saved successfully.")
+                        if product_image.pk:
+                            self.stdout.write(self.style.SUCCESS(f"Image {image_file} added to product {product.title}"))
                         else:
-                            print(f"Error: Image {image_file} was not saved.")
-
+                            self.stdout.write(self.style.ERROR(f"Failed to save image {image_file} for product {product.title}"))
                         # Increment the image count for the product
                         existing_images += 1
                 except Exception as e:

@@ -1,13 +1,23 @@
+from django.http import JsonResponse
 from django.shortcuts import render,redirect
+from django.views import View
 from .forms import ProductForm,MultipleImagesForm,ProductImage
-from .models import Product ,ProductImage,State  ,Category
+from .models import Product ,ProductImage, ProductOrder,State  ,Category
 from django import template 
+
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from itertools import zip_longest
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+import razorpay
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import logging
 register = template.Library()
+
 
 @register.filter(name='get_item')
 def get_item(dictionary, key):
@@ -53,24 +63,26 @@ def home(request):
     }
     context.update(context1)
     return render(request, "product/home.html", context)
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import ProductForm, MultipleImagesForm
+from .models import ProductImage
 
 @login_required(login_url='login-page')
 def product_create_form(request):
     number_of_image_fields = 4
+
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
-        image_form = MultipleImagesForm(request.FILES)
-        print(product_form)
-        print(image_form)
+        image_form = MultipleImagesForm(request.POST, request.FILES)
 
-        if product_form.is_valid() or image_form.is_valid():
+        if product_form.is_valid() and image_form.is_valid():
             product = product_form.save(commit=False)
             product.posted_by = request.user
             product.save()
 
-            # Handle the images
+            # Handle multiple images
             images = request.FILES.getlist('images')
-            
             for img in images:
                 ProductImage.objects.create(product=product, image=img)
 
@@ -80,12 +92,13 @@ def product_create_form(request):
         image_form = MultipleImagesForm()
 
     context = {
-        'number_of_image_fields': range(number_of_image_fields),  # Pass the range as context
+        'number_of_image_fields': range(number_of_image_fields),
         'product_form': product_form,
         'image_form': image_form,
     }
 
     return render(request, 'product/create_product.html', context)
+
 
 @login_required(login_url='login-page')
 def product_details(request, product_id):
@@ -171,3 +184,48 @@ def product_delete(request, product_id):
     product.blocked=True
     product.save()  
     return redirect('product-all-details') 
+
+
+logger = logging.getLogger(__name__)
+client=  razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CreatePaymentView(LoginRequiredMixin, View):
+    def post(self, request, product_id):
+        try:
+            logger.info("Fetching product with id: %s", product_id)
+            product = get_object_or_404(Product, id=product_id)
+
+            if not product.price:
+                raise ValueError("Product price is missing or invalid.")
+
+            order_data = {
+                'amount': int(product.price * 100),
+                'currency': 'INR',
+                'payment_capture': '1',
+            }
+
+            # Check Razorpay client is configured
+            logger.info("Creating Razorpay order")
+            razorpay_order = client.order.create(data=order_data)
+
+            productOrder = ProductOrder.objects.create(
+                product=product,
+                customer=request.user,
+                amount=product.price,
+                razorpay_id=razorpay_order['id'],
+            )
+
+            logger.info("Payment created successfully")
+
+            return JsonResponse({
+                "order_id": razorpay_order['id'],
+                "razorpay_key_id": settings.RAZORPAY_KEY_ID,
+                "amount": razorpay_order['amount'],
+                "product_name": product.title,
+                "razorpay_callback_url": settings.RAZORPAY_CALLBACK_URL,
+            })
+
+        except Exception as e:
+            logger.error("Payment creation failed: %s", str(e))
+            return JsonResponse({'error': 'Internal Server Error'}, status=500)

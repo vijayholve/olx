@@ -189,6 +189,8 @@ class PaymentType(models.Model):
     def unblock(self):
         self.blocked = False
         self.save()
+    def __str__(self):
+        return self.name
 
 
 # class Transaction(models.Model):
@@ -217,6 +219,27 @@ class PaymentType(models.Model):
 #         return f"Transaction {self.transaction_no}"
 
 
+class ProductOrder(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    created_time = models.DateTimeField(auto_now_add=True)
+    payment_status = models.BooleanField(default=False) 
+    blocked = models.BooleanField(default=False)
+    razorpay_id = models.CharField(max_length=100, blank=True, null=True)
+
+
+    def block(self):
+        self.blocked = True
+        self.save()
+
+    def unblock(self):
+        self.blocked = False
+        self.save()
+
+    
+    def __str__(self):
+        return f"Order {self.order_no} - {self.product} by {self.customer.username}"
 class Order(models.Model):
     order_no = models.AutoField(primary_key=True)
     transaction_no = models.CharField(max_length=36, unique=True, blank=True)
@@ -225,7 +248,7 @@ class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_time = models.DateTimeField(auto_now_add=True)
-    payment_status = models.BooleanField()  # False for unpaid/pending, True for paid
+    payment_status = models.BooleanField() 
     blocked = models.BooleanField(default=False)
 
     def block(self):

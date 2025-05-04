@@ -1,37 +1,119 @@
 {% extends 'base/main.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 {% block css_content %}
   <link rel="stylesheet" href="{% static 'product/create_product.css' %}" />
   <style>
-    .image-upload-container {
-      margin-top: 20px;
+    /* Centering the form and improving design */
+    .create-product-wrapper {
+      max-width: 400px;
+      margin: 140px 100px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
     }
     
-    .image-upload-box {
+    /* Title styling */
+    .create-product-wrapper h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    /* Form errors box */
+    .form-errors {
+      background-color: #ffe5e5;
+      border-left: 5px solid #ff4d4d;
+      padding: 15px;
       margin-bottom: 20px;
+      border-radius: 5px;
     }
     
-    .uploaded-image-path {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #666;
+    .form-errors h4 {
+      color: #cc0000;
+      font-weight: 600;
     }
     
+    .form-group .error {
+      color: #dc3545;
+      font-size: 0.875rem;
+    }
+    
+    /* Image upload box styling */
     .image-upload-box input {
-      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+      margin-top: 8px;
+    }
+    
+    /* Form control focus effect */
+    .form-control:focus {
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      border-color: #007bff;
+    }
+    
+    /* Styling the submit button */
+    .btn-primary {
+      padding: 10px 25px;
+      font-weight: bold;
+      background-color: #007bff;
+      border-color: #007bff;
+      border-radius: 5px;
+      color: white;
+      transition: background-color 0.3s;
+    }
+    
+    /* Button hover effect */
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    
+    /* Error message handling */
+    .error {
+      font-size: 0.875rem;
+      color: #dc3545;
+      margin-top: 5px;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .create-product-wrapper {
+        padding: 20px;
+      }
+    
+      .create-product-wrapper h2 {
+        font-size: 1.5rem;
+      }
+    
+      .btn-primary {
+        width: 100%;
+      }
     }
   </style>
 {% endblock %}
 
 {% block content %}
-  //<div class="exam-form-container">
+  <div class="sidebar">
+    {% include 'panel/panel_navbar.html' %}
+  </div>
+  <div class="container create-product-wrapper">
     <h2>Create Product</h2>
+
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
+
       {% if product_form.errors %}
         <div class="form-errors">
           <h4>Product Form Errors:</h4>
-          <ul>
+          <ul class="mb-0">
             {% for field in product_form %}
               {% for error in field.errors %}
                 <li>{{ field.label }}: {{ error }}</li>
@@ -43,19 +125,23 @@
           </ul>
         </div>
       {% endif %}
+
       {% for f in product_form %}
-        <div class="form-group">
-          {{ f }}
+        <div class="mb-3">
+          <label for="{{ f.id_for_label }}" class="form-label">{{ f.label }}</label>
+          {{ f|add_class:'form-control' }}
           {% if f.errors %}
             <div class="error">{{ f.errors }}</div>
           {% endif %}
         </div>
       {% endfor %}
 
-      <div class="form-group image-upload-container">
+      <!-- Image Upload Section -->
+      <div class="mb-4">
+        <label class="form-label">Upload Product Images</label>
         {% for i in number_of_image_fields %}
-          <div class="image-upload-box">
-            <input type="file" name="images" id="id_images_{{ i }}" multiple required />
+          <div class="mb-3 image-upload-box">
+            <input type="file" name="images" id="id_images_{{ i }}" class="form-control" multiple required />
             {% if image_form.images.errors %}
               <div class="error">{{ image_form.images.errors }}</div>
             {% endif %}
@@ -63,7 +149,9 @@
         {% endfor %}
       </div>
 
-      <button type="submit">Create Product</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Create Product</button>
+      </div>
     </form>
   </div>
 {% endblock %}

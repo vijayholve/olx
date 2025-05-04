@@ -7,6 +7,6 @@ urlpatterns = [
     path('details-product/<str:product_id>',views.product_details,name='product_details'),
     path('update-product/<str:product_id>/',views.product_update_form, name='product-update'),
     path('delete-product/<str:product_id>/',views.product_delete, name='product-delete'),
-
+    path('payment-product/<str:product_id>/',views.CreatePaymentView.as_view(), name='payment-product'),
 
 ]

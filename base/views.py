@@ -143,6 +143,6 @@ def update_customer_details(request,c_id):
 def delete_customer_details(request,c_id):
     customer=Customer.objects.get(id=c_id)
     customer.blocked=True
-    print(customer)
+    # print(customer)
     customer.save()
     return redirect('customer-details')

@@ -44,7 +44,7 @@ def find_and_execute_exe(exe_name, task_name):
 
     results_file = os.path.join(results_folder, f"{task_name}.txt")
     command = f'"{exe_path}" > "{results_file}" 2>&1'
-    print(f"Executing command: {command}")
+    # print(f"Executing command: {command}")
 
     try:
         subprocess.Popen(command, shell=True, cwd=base_dir)
