@@ -37,21 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-        'corsheaders',
+    'corsheaders',
     'widget_tweaks',
-
     'product.apps.ProductConfig',
     'base.apps.BaseConfig',
     'panel.apps.PanelConfig',
     'plan.apps.PlanConfig',
     'other.apps.OtherConfig',
-  
-
-
-]
+  ]
 
 MIDDLEWARE = [
-        'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,7 +59,6 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "https://example.com",
     "https://another-example.com",
-    # Add more domains as needed
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -95,9 +90,6 @@ from dotenv import load_dotenv
 
 load_dotenv('.env')
 
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
 
 DATABASES = {
      'default': {
@@ -109,6 +101,8 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT',3306),  
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -128,10 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -140,16 +130,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 import os
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -167,8 +149,8 @@ STATICFILES_DIRS = [
 from decouple import config
 
 
-RAZORPAY_KEY_ID = config('RAZORPAY_KEY_ID') 
-RAZORPAY_KEY_SECRET = config('RAZORPAY_KEY_SECRET')
+RAZORPAY_KEY_ID = 'rzp_test_dQf4boN8rkxzyAv'
+RAZORPAY_KEY_SECRET ='icPzmcCO3jxFhQ7K6q6MYY2i'
 
 
 RAZORPAY_CALLBACK_URL = "http://127.0.0.1:8000/payment-verify"
