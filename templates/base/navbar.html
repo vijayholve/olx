@@ -1,32 +1,42 @@
-<form method="GET" action="{% url 'home' %}" id="categoryForm">
-  <input type="hidden" name="category" id="categoryInput">
-  <input type="hidden" name="condition" id="conditionInput">
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container">
 
-      <!-- Logo -->
-      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-        <img src="media/base/download-removebg-preview.png" alt="Logo" style="height: 40px;">
-      </a>
+<title>OLX‑Style Navbar</title>
 
-      <!-- Toggler for mobile view -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
-        aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<style>
+  /* Custom toggler icon (optional) */
+  .navbar-light .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+</style>
 
-      <!-- Main Navbar -->
-      <div class="collapse navbar-collapse" id="navbarMain">
+<!-- Navbar starts here -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+      <img src="\media\base\download-removebg-preview.png" alt="Logo" style="height: 40px;">
+    </a>
+
+    <!-- Mobile Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+      aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+
+      <!-- Form-only part -->
+      <form method="GET" action="{% url 'home' %}" id="categoryForm" class="d-flex w-100">
 
         <!-- Filter Dropdowns -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-          <!-- Condition Filter -->
+          <!-- Condition Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="conditionDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              {% if condition %} {{ condition }} {% else %} Condition {% endif %}
+            <a class="nav-link dropdown-toggle" href="#" id="conditionDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {% if condition %}{{ condition }}{% else %}Condition{% endif %}
             </a>
             <ul class="dropdown-menu" aria-labelledby="conditionDropdown">
               <li><a class="dropdown-item" href="#" onclick="submitCondition('')">Any</a></li>
@@ -35,11 +45,11 @@
             </ul>
           </li>
 
-          <!-- Category Filter -->
+          <!-- Category Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              {% if category %} {{ category }} {% else %} Category {% endif %}
+            <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {% if category %}{{ category }}{% else %}Category{% endif %}
             </a>
             <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
               <li><a class="dropdown-item" href="#" onclick="submitCategory('')">All</a></li>
@@ -52,53 +62,43 @@
               {% endfor %}
             </ul>
           </li>
-
         </ul>
 
-        <!-- Search Bar -->
-        <form method="GET" action="{% url 'home' %}" class="d-flex me-3">
+        <!-- Search -->
+        <input type="hidden" name="category" id="categoryInput">
+        <input type="hidden" name="condition" id="conditionInput">
+
+        <div class="d-flex me-3">
           <input class="form-control me-2" type="search" name="search" value="{{ query }}" placeholder="Search"
             aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        </div>
+      </form>
 
-        <!-- Profile Dropdown -->
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="/media/pngtree-man-avatar-image-for-profile-png-image_13001882.png" alt="Profile"
-                class="rounded-circle me-1" style="width: 30px; height: 30px;">
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-              {% if request.user.is_staff %}
+      <!-- Profile Dropdown -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/media/pngtree-man-avatar-image-for-profile-png-image_13001882.png" alt="Profile"
+              class="rounded-circle me-1" style="width: 30px; height: 30px;">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            {% if request.user.is_staff %}
               <li><a class="dropdown-item" href="{% url 'plan-detail' %}">Profile</a></li>
+            {% else %}
+              {% if request.user.customer %}
+                <li><a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a></li>
               {% else %}
-                {% if request.user.customer %}
-                  <li><a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a></li>
-                {% else %}
-                  <li><span class="dropdown-item text-muted">Create Customer</span></li>
-                {% endif %}
+                <li><span class="dropdown-item text-muted">Create Customer</span></li>
               {% endif %}
-              <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
-            </ul>
-          </li>
-        </ul>
+            {% endif %}
+            <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
 
-      </div>
     </div>
-  </nav>
-</form>
+  </div>
+</nav>
 
-<!-- JavaScript Functions -->
-<script>
-  function submitCategory(category) {
-    document.getElementById('categoryInput').value = category;
-    document.getElementById('categoryForm').submit();
-  }
-
-  function submitCondition(condition) {
-    document.getElementById('conditionInput').value = condition;
-    document.getElementById('categoryForm').submit();
-  }
-</script>

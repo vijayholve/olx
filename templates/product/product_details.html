@@ -1,167 +1,287 @@
 {% extends 'base/main.html' %}
 {% load custom_filters %}
 {% block css_content %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'product/product_details.css' %}"> 
-<link rel="stylesheet" href="{% static 'product/prod_car.css' %}?v={{time}}">
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  {% load static %}
+  {% load static %}
 
-{% endblock css_content %}
+  <link rel="apple-touch-icon" href="{% static 'img/apple-icon.png' %}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
 
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/templatemo.css' %}" />
+  <!-- <link rel="stylesheet" href="{% static 'css/custom.css' %}"> -->
 
+  <!-- Load fonts style after rendering the layout styles -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap" />
+  <link rel="stylesheet" href="{% static 'assets/css/fontawesome.min.css' %}" />
+
+  <!-- Slick -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/slick.min.css' %}" />
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endblock %}
 {% block content %}
-<div class="container py-4">
-    <div class="row">
-        <div class="col-md-6">
-            <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for image in product.images.all %}
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img id="mainImage" src="{{ image.image.url }}" class="d-block w-100 main-img" alt="{{ product.title }}">
-                        </div>
-                    {% endfor %}
-                </div>
-                <button class="carousel-control-prev border-dark" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-
-            <div class="d-flex flex-wrap mt-3">
-                {% for image in product.images.all %}
-                    <img src="{{ image.image.url }}" class="img-thumbnail m-1" style="width: 80px; height: auto; cursor: pointer;" onclick="changeImage('{{ image.image.url }}')">
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <h1>{{ product.title }}</h1>
-            <p>{{ product.description }}</p>
-            <ul class="list-unstyled">
-                <li><strong>Location:</strong> {{ product.location }}</li>
-                <li><strong>Condition:</strong> {{ product.condition }}</li>
-                <li><strong>State:</strong> {{ product.state }}</li>
-                <li><strong>Active:</strong> {{ product.is_active|yesno:"Yes,No" }}</li>
-            </ul>
-            <h3 class="text-primary">$ {{ product.price }}</h3>
-            <button class="btn btn-primary  mt-2" id="payment-process">Payment</button>
-
-            <button class="btn btn-success mt-2">Send Message</button>
-        </div>
-    </div>
-</div>
-<script>
-    document.querySelector('#payment-process').addEventListener('click', async function() {
-        try {
-            const response = await fetch("{% url 'payment-product' product.id %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                credentials: 'same-origin'  // ensure cookies like CSRF work
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Server error:", errorText);
-                throw new Error("Network response was not ok");
-            }
-            
-
-            const data = await response.json();
-
-            console.log("Payment data:", data);
-
-            // Razorpay popup here if needed:
-            const options = {
-                "key": data.razorpay_key_id,
-                "amount": data.amount,
-                "currency": "INR",
-                "name": data.product_name,
-                "order_id": data.order_id,
-                "callback_url": data.razorpay_callback_url, // optional but recommended
-                "handler": function (response) {
-                    alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
-                    // Optionally send response.razorpay_payment_id etc. to backend
-                },
-                "prefill": {
-                    "name": "{{ request.user.get_full_name }}",
-                    "email": "{{ request.user.email }}",
-                },
-                "theme": {
-                    "color": "#3399cc"
-                },
-                "modal": {
-                    "ondismiss": function () {
-                        alert("Payment popup closed.");
-                    }
-                }
-            };
-            const rzp = new Razorpay(options);
-            rzp.open();
-            
-
-        } catch (error) {
-            console.error("Fetch error:", error);
-        }
-    });
-</script>
-
-<div class="container py-5">
-    <h2 class="mb-4">Suggested <strong>Products</strong></h2>
-    <div id="suggestedProductsCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            {% for group in grouped_suggested_products %}
-                <button type="button" data-bs-target="#suggestedProductsCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
-                        class="{% if forloop.first %}active{% endif %}" {% if forloop.first %}aria-current="true"{% endif %}
-                        aria-label="Slide {{ forloop.counter }}"></button>
-            {% endfor %}
-        </div>
-
-        <div class="carousel-inner">
-            {% for group in grouped_suggested_products %}
+  <section class="bg-light">
+    <div class="container py-5">
+      <div class="row">
+        <!-- Product Image Carousel -->
+        <div class="col-lg-5 mb-4">
+          <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for image in product.images.all %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <div class="row">
-                        {% for sugg_product in group %}
-                            <div class="col-sm-6 col-md-3 mb-3">
-                                <div class="card h-100 shadow-sm">
-                                    {% if suggest_product_images|get_item:sugg_product.id %}
-                                        <img src="{{ suggest_product_images|get_item:sugg_product.id }}" class="card-img-top" alt="{{ sugg_product.name }}">
-                                    {% else %}
-                                        <img src="/path/to/placeholder-image.jpg" class="card-img-top" alt="No image available">
-                                    {% endif %}
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ sugg_product.name }}</h5>
-                                        <p class="card-text text-primary">$ {{ sugg_product.price }}</p>
-                                        <a href="{% url 'product_details' sugg_product.id %}" class="btn btn-outline-primary btn-sm">View Product</a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
+                  <img src="{{ image.image.url }}" class="d-block w-100 img-fluid rounded" alt="Product Image" />
                 </div>
+              {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+          <!-- Thumbnails -->
+          <div class="d-flex flex-nowrap overflow-auto mt-3 px-1">
+            {% for image in product.images.all %}
+              <img src="{{ image.image.url }}" class="img-thumbnail me-2" style="width: 70px; cursor: pointer;" onclick="changeImage('{{ image.image.url }}')" alt="Thumbnail" />
             {% endfor %}
+          </div>
         </div>
 
-        <button class="carousel-control-prev w-10 h-10 bg-danger " type="button" data-bs-target="#suggestedProductsCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next bg-danger  " type="button" data-bs-target="#suggestedProductsCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-</div>
+        <!-- Product Details -->
+        <div class="col-lg-7">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h1 class="h2">{{ product.title }}</h1>
+              <p class="h3 py-2">${{ product.price }}</p>
+              <p class="py-2">
+                <i class="fa fa-star text-secondary"></i>
+                <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+              </p>
 
-<script>
-    function changeImage(imageSrc) {
-        document.getElementById('mainImage').src = imageSrc;
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <h6>Brand:</h6>
+                </li>
+                <li class="list-inline-item">
+                  <p class="text-muted">
+                    <strong>{{ product.brand }}</strong>
+                  </p>
+                </li>
+              </ul>
+
+              <h6>Description:</h6>
+              <p>{{ product.description }}</p>
+
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <h6>Available Color:</h6>
+                </li>
+                <li class="list-inline-item">
+                  <p class="text-muted">
+                    <strong>{{ product.color }}</strong>
+                  </p>
+                </li>
+              </ul>
+
+              <h6>Specification:</h6>
+              <ul class="list-unstyled pb-3">
+                {% for spec in product.specifications.all %}
+                  <li>{{ spec }}</li>
+                {% endfor %}
+              </ul>
+
+              <!-- Add to Cart -->
+              <form action="" method="GET">
+                <input type="hidden" name="product-title" value="{{ product.title }}" />
+
+                <div class="row">
+                  <div class="col-auto"></div>
+                  <div class="col-auto">
+                    <ul class="list-inline pb-3">
+                      <li class="list-inline-item">Quantity</li>
+                      <li class="list-inline-item">
+                        <span class="btn btn-success" id="btn-minus">-</span>
+                      </li>
+                      <li class="list-inline-item">
+                        <span class="badge bg-secondary" id="var-value">1</span>
+                      </li>
+                      <li class="list-inline-item">
+                        <span class="btn btn-success" id="btn-plus">+</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="row pb-3">
+                  <div class="col d-grid">
+                    <button type="submit" id="payment-process" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                  </div>
+                  <div class="col d-grid">
+                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocart">Add To Cart</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function changeImage(url) {
+      const carousel = document.getElementById('productCarousel')
+      const inner = carousel.querySelector('.carousel-inner')
+      inner.querySelector('.carousel-item.active img').src = url
     }
-</script>
-{% endblock content %}
+  </script>
+
+  <script>
+    document.querySelector('#payment-process').addEventListener('click', async function () {
+      try {
+        const response = await fetch("{% url 'payment-product' product.id %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          credentials: 'same-origin' // ensure cookies like CSRF work
+        })
+    
+        if (!response.ok) {
+          const errorText = await response.text()
+          console.error('Server error:', errorText)
+          throw new Error('Network response was not ok')
+        }
+    
+        const data = await response.json()
+    
+        console.log('Payment data:', data)
+    
+        // Razorpay popup here if needed:
+        const options = {
+          key: data.razorpay_key_id,
+          amount: data.amount,
+          currency: 'INR',
+          name: data.product_name,
+          order_id: data.order_id,
+          callback_url: data.razorpay_callback_url, // optional but recommended
+          handler: function (response) {
+            alert('Payment successful! Payment ID: ' + response.razorpay_payment_id)
+            // Optionally send response.razorpay_payment_id etc. to backend
+          },
+          prefill: {
+            name: '{{ request.user.get_full_name }}',
+            email: '{{ request.user.email }}'
+          },
+          theme: {
+            color: '#3399cc'
+          },
+          modal: {
+            ondismiss: function () {
+              alert('Payment popup closed.')
+            }
+          }
+        }
+        const rzp = new Razorpay(options)
+        rzp.open()
+      } catch (error) {
+        console.error('Fetch error:', error)
+      }
+    })
+  </script>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="row text-left p-2 pb-3">
+        <h4>Suggested <strong>Products</strong></h4>
+      </div>
+
+      <div id="carousel-related-product" class="row">
+        {% for sugg_product in suggested_products %}
+          <div class="col-md-3 p-2 pb-3">
+            <a href="{% url 'product_details' sugg_product.id %}" class="product-wap card rounded-0">
+              <div class="card rounded-0 position-relative">
+                {% if suggest_product_images|get_item:sugg_product.id %}
+                  <img class="card-img rounded-0 img-fluid" src="{{ suggest_product_images|get_item:sugg_product.id }}" alt="{{ sugg_product.name }}" />
+                {% else %}
+                  <img class="card-img rounded-0 img-fluid" src="/path/to/placeholder.jpg" alt="No image" />
+                {% endif %}
+                <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center"></div>
+              </div>
+              <div class="card-body">
+                <a href="{% url 'product_details' sugg_product.id %}" class="h3 text-decoration-none">{{ sugg_product.name }}</a>
+                <ul class="w-100 list-unstyled d-flex justify-content-between mb-0">
+                  <li>M/L/XL</li>
+                  <li class="pt-2">
+                    <span class="product-color-dot color-dot-red float-left rounded-circle ml-1"></span>
+                    <span class="product-color-dot color-dot-blue float-left rounded-circle ml-1"></span>
+                    <span class="product-color-dot color-dot-black float-left rounded-circle ml-1"></span>
+                  </li>
+                </ul>
+                <ul class="list-unstyled d-flex justify-content-center mb-1">
+                  <li>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-warning fa fa-star"></i>
+                    <i class="text-muted fa fa-star"></i>
+                  </li>
+                </ul>
+                <p class="text-center mb-0">${{ sugg_product.price }}</p>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function changeImage(imageSrc) {
+      document.getElementById('mainImage').src = imageSrc
+    }
+  </script>
+  <script src="{% static 'js/jquery-1.11.0.min.js' %}"></script>
+  <script src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/templatemo.js' %}"></script>
+  <script src="{% static 'js/custom.js' %}"></script>
+  <script>
+    $('#carousel-related-product').slick({
+      infinite: true,
+      arrows: false,
+      slidesToShow: 4,
+      slidesToScroll: 3,
+      dots: true,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 3
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 3
+          }
+        }
+      ]
+    })
+  </script>
+{% endblock %}

@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.stdout.write("Creating fake data...")
-        for _ in range(50):
+        for _ in range(10):
             user = User.objects.create_user(
                 username=fake.user_name(),
                 email=fake.email(),

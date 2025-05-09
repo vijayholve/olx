@@ -75,8 +75,7 @@ h2 {
     background-color: transparent; /* Transparent background */
     border: none; /* Remove border */
     padding: 10px 0; /* Vertical padding for items */
-    display: flex; /* Flex layout */
-    justify-content: space-between; /* Space between items */
+    
     align-items: center; /* Center vertically */
     transition: background-color 0.2s; /* Smooth background transition */
 }
@@ -101,8 +100,7 @@ h2 {
     background-color: #f8f9fa; /* Light gray for footer */
     border-top: 1px solid #e9ecef; /* Light border on top */
     padding: 15px; /* Padding for footer */
-    display: flex; /* Flex layout for buttons */
-    justify-content: space-around; /* Space around buttons */
+    
 }
 
 /* Buttons */
