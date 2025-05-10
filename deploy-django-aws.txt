@@ -1,0 +1,155 @@
+Step-by-Step Guide to Deploy Django on AWS
+Prerequisites:
+You have a Django project ready.
+
+You have an EC2 instance set up with Ubuntu (or any preferred Linux distribution).
+
+You have SSH access to the EC2 instance.
+
+1. SSH into Your EC2 Instance:
+First, connect to your EC2 instance using SSH.
+
+
+ssh -i path/to/your/private-key.pem ubuntu@your-ec2-public-ip
+2. Install Required Packages on the EC2 Instance:
+Update your system and install Python, pip, and other required packages.
+
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt install python3-pip python3-dev libpq-dev nginx curl -y
+3. Set Up Your Project Directory:
+Create a directory for your project and navigate to it.
+
+
+mkdir ~/myproject
+cd ~/myproject
+Clone your Django project into this directory or upload it directly if you already have it ready.
+
+
+git clone https://github.com/yourusername/yourproject.git
+cd yourproject
+4. Set Up a Virtual Environment:
+Create and activate a virtual environment for your project.
+
+
+python3 -m venv venv
+source venv/bin/activate
+5. Install Project Dependencies:
+Use pip to install the required Python packages listed in your requirements.txt file.
+
+
+pip install -r requirements.txt
+6. Apply Migrations:
+Apply the database migrations to set up your database.
+
+
+python manage.py migrate
+7. Collect Static Files:
+Collect all static files (CSS, JS, images) so they can be served by Nginx.
+
+
+python manage.py collectstatic --noinput
+8. Set Up Gunicorn:
+Install Gunicorn, which will serve your Django application.
+
+
+pip install gunicorn
+Test Gunicorn to ensure it’s working by running:
+
+
+gunicorn --workers 3 yourproject.wsgi:application
+Make sure the application works correctly, and then stop Gunicorn (press Ctrl+C).
+
+9. Set Up Gunicorn to Run as a Service:
+Create a Gunicorn systemd service file to ensure it starts automatically.
+
+
+sudo nano /etc/systemd/system/gunicorn.service
+Add the following content (replace yourproject with the actual project name and the paths accordingly):
+
+ini
+Copy
+[Unit]
+Description=gunicorn daemon for Django project
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/myproject/yourproject
+ExecStart=/home/ubuntu/myproject/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/myproject/yourproject.sock yourproject.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+Save and exit the file (Ctrl + X, then Y, then Enter).
+
+Start and enable Gunicorn to run on boot:
+
+
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+10. Configure Nginx:
+Nginx will handle incoming HTTP requests and forward them to Gunicorn.
+
+Open the Nginx default configuration file:
+
+
+sudo nano /etc/nginx/sites-available/default
+Replace the default server block with this configuration:
+
+nginx
+Copy
+server {
+    listen 80;
+    server_name yourdomain.com;
+
+    location / {
+        proxy_pass http://unix:/home/ubuntu/myproject/yourproject.sock;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /static/ {
+        alias /home/ubuntu/myproject/yourproject/static/;
+    }
+
+    location /media/ {
+        alias /home/ubuntu/myproject/yourproject/media/;
+    }
+}
+Save and exit the file.
+
+11. Restart Nginx and Gunicorn:
+Now, restart Nginx to apply the changes.
+
+
+sudo systemctl restart nginx
+Also, restart Gunicorn to make sure it's working with the updated configuration.
+
+
+sudo systemctl restart gunicorn
+12. Open Firewall Ports (if necessary):
+Make sure the firewall allows HTTP traffic on port 80.
+
+
+sudo ufw allow 'Nginx Full'
+13. Set DEBUG = False in settings.py:
+For production, set DEBUG to False in your Django settings.py:
+
+python
+Copy
+DEBUG = False
+ALLOWED_HOSTS = ['yourdomain.com', 'your-ec2-public-ip']
+14. Test the Application:
+Visit http://yourdomain.com or your EC2 IP address in the browser. You should see your Django application running.
+
+15. (Optional) Set Up HTTPS with SSL (Let’s Encrypt):
+To enable HTTPS, you can use Let's Encrypt with Certbot. Install Certbot and get your SSL certificate:
+
+
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx
+Follow the prompts to complete the SSL setup.

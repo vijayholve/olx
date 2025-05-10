@@ -1,0 +1,96 @@
+1. SSH into Your EC2 Instance
+To begin, connect to your EC2 instance using SSH:
+2. Update Your Project Repository
+Navigate to your project directory and pull the latest updates from your Git repository.
+
+bash
+Copy
+Edit
+cd ~/myproject
+git pull origin main  # or the appropriate branch
+3. Upgrade Dependencies (Optional)
+If you’ve updated your project’s requirements.txt or need to upgrade your dependencies, activate your virtual environment and upgrade the packages.
+
+Activate Virtual Environment:
+bash
+Copy
+Edit
+source venv/bin/activate
+Upgrade Dependencies:
+bash
+Copy
+Edit
+pip install --upgrade -r requirements.txt
+If you need to install a specific package version, you can do so with:
+
+bash
+Copy
+Edit
+pip install <package-name>==<version-number>
+4. Apply New Migrations
+If your project includes new database migrations, apply them to your database:
+
+bash
+Copy
+Edit
+python manage.py migrate
+5. Collect Static Files
+After updating or adding new static files (e.g., CSS, JS, images), collect them to the static directory:
+
+bash
+Copy
+Edit
+python manage.py collectstatic --noinput
+6. Restart Gunicorn
+To ensure your project is running the latest code, restart Gunicorn.
+
+bash
+Copy
+Edit
+sudo systemctl restart gunicorn
+7. Restart Nginx
+If your project includes changes that require Nginx to reload (like new static files or media files), restart Nginx:
+
+bash
+Copy
+Edit
+sudo systemctl restart nginx
+8. Test the Application
+Once you’ve completed all the steps, open your browser and test the application to ensure that everything works as expected.
+
+Visit your domain or public IP address:
+
+bash
+Copy
+Edit
+http://yourdomain.com  # or your EC2 public IP address
+Ensure the updated changes are live and functioning properly.
+
+9. (Optional) Clear Cached Files
+If you have any cached files or sessions, it’s a good idea to clear them for a fresh start:
+
+bash
+Copy
+Edit
+python manage.py clear_cache
+(You may need to implement a custom clear_cache command if required.)
+
+10. Troubleshooting
+If you encounter any issues, here are some common steps to troubleshoot:
+
+Check Gunicorn Logs:
+
+bash
+Copy
+Edit
+sudo journalctl -u gunicorn
+Check Nginx Logs:
+
+bash
+Copy
+Edit
+sudo tail -f /var/log/nginx/error.log
+Check Django Logs:
+
+Review the Django logs for any specific errors related to the upgrade.
+
