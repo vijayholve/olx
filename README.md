@@ -48,8 +48,12 @@
   </a>
 </p>
 
-<img src="media/project/image.png" alt="image1" style="width:40%; height:400px;"/>
-<img src="media/project/image1.png" alt="image2" style="width:40%; height:400px;"/>
-<img src="media/project/image2.png" alt="image3" style="width:40%; height:400px;"/>
-<img src="media/project/image3.png" alt="image4" style="width:40%; height:400px;"/>
-<img src="media/project/image4.png" alt="image5" style="width:40%; height:400px;"/>
+<h3 align="center">Project Screenshots:</h3>
+
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+  <img src="media/project/image.png" alt="image1" style="width: 250px; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" />
+  <img src="media/project/image1.png" alt="image2" style="width: 250px; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" />
+  <img src="media/project/image2.png" alt="image3" style="width: 250px; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" />
+  <img src="media/project/image3.png" alt="image4" style="width: 250px; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" />
+  <img src="media/project/image4.png" alt="image5" style="width: 250px; height: 250px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" />
+</div>
