@@ -16,7 +16,6 @@
   <meta name="description" content="This is an example dashboard created using build-in elements and components." />
   <meta name="msapplication-tap-highlight" content="no" />
   <link rel="stylesheet" href="{% static 'panel/header.css' %}?v={{ time }}" />
-
 {% endblock %}
 
 {% block content %}
@@ -24,7 +23,7 @@
     {% include 'panel/panel_navbar.html' %}
   </div>
 
-  <div class="container-fluid d-flex">
+  <div class="container-fluid d-flex mt-5">
     <!-- Sidebar -->
     <!-- Main Content -->
     <div class="main-content flex-grow-1 p-3">
@@ -67,7 +66,7 @@
                   <td class="text-center">{{ product.posted_by.username }}</td>
                   <td class="text-center">{{ product.date_posted }}</td>
                   <td class="text-center">
-                    {% if product.images.first %}
+                    {% if product.images.first.exist %}
                       <img src="{{ product.images.first.image.url }}" alt="{{ product.title }} image" style="max-width: 100px; height: auto;" />
                     {% else %}
                       <p>No image</p>

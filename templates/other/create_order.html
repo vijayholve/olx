@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block content %}
-  //<div class="exam-form-container">
+<div class="sidebar">
+  {% include 'panel/panel_navbar.html' %}
+</div><div class="exam-form-container">
     <h2>Create Order</h2>
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}

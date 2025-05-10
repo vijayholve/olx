@@ -1,5 +1,3 @@
-
-
 <title>OLX‑Style Navbar</title>
 
 <style>
@@ -12,65 +10,68 @@
 <!-- Navbar starts here -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
   <div class="container">
-
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-      <img src="\media\base\download-removebg-preview.png" alt="Logo" style="height: 40px;">
-    </a>
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}"><img src="\media\base\download-removebg-preview.png" alt="Logo" style="height: 40px;" /></a>
 
     <!-- Mobile Toggler -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
-      aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
     <!-- Collapsible Content -->
     <div class="collapse navbar-collapse" id="navbarMain">
-
       <!-- Form-only part -->
       <form method="GET" action="{% url 'home' %}" id="categoryForm" class="d-flex w-100">
-
         <!-- Filter Dropdowns -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <!-- Condition Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="conditionDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              {% if condition %}{{ condition }}{% else %}Condition{% endif %}
+            <a class="nav-link dropdown-toggle" href="#" id="conditionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if condition %}
+                {{ condition }}
+              {% else %}
+                Condition
+              {% endif %}
             </a>
             <ul class="dropdown-menu" aria-labelledby="conditionDropdown">
-              <li><a class="dropdown-item" href="#" onclick="submitCondition('')">Any</a></li>
-              <li><a class="dropdown-item" href="#" onclick="submitCondition('New')">New</a></li>
-              <li><a class="dropdown-item" href="#" onclick="submitCondition('Used')">Used</a></li>
+              <li>
+                <a class="dropdown-item" href="#" onclick="submitCondition('')">Any</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" onclick="submitCondition('New')">New</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" onclick="submitCondition('Used')">Used</a>
+              </li>
             </ul>
           </li>
 
           <!-- Category Dropdown -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
-              {% if category %}{{ category }}{% else %}Category{% endif %}
+            <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if category %}
+                {{ category }}
+              {% else %}
+                Category
+              {% endif %}
             </a>
             <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-              <li><a class="dropdown-item" href="#" onclick="submitCategory('')">All</a></li>
-              {% for cate in all_category %}
               <li>
-                <a class="dropdown-item" href="#" onclick="submitCategory('{{ cate.name }}')">
-                  {{ cate.name }}
-                </a>
+                <a class="dropdown-item" href="#" onclick="submitCategory('')">All</a>
               </li>
+              {% for cate in all_category %}
+                <li>
+                  <a class="dropdown-item" href="#" onclick="submitCategory('{{ cate.name }}')">{{ cate.name }}</a>
+                </li>
               {% endfor %}
             </ul>
           </li>
         </ul>
 
         <!-- Search -->
-        <input type="hidden" name="category" id="categoryInput">
-        <input type="hidden" name="condition" id="conditionInput">
+        <input type="hidden" name="category" id="categoryInput" />
+        <input type="hidden" name="condition" id="conditionInput" />
 
         <div class="d-flex me-3">
-          <input class="form-control me-2" type="search" name="search" value="{{ query }}" placeholder="Search"
-            aria-label="Search">
+          <input class="form-control me-2" type="search" name="search" value="{{ query }}" placeholder="Search" aria-label="Search" />
           <button class="btn btn-outline-success" type="submit">Search</button>
         </div>
       </form>
@@ -78,27 +79,41 @@
       <!-- Profile Dropdown -->
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/media/pngtree-man-avatar-image-for-profile-png-image_13001882.png" alt="Profile"
-              class="rounded-circle me-1" style="width: 30px; height: 30px;">
-          </a>
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="/media/pngtree-man-avatar-image-for-profile-png-image_13001882.png" alt="Profile" class="rounded-circle me-1" style="width: 30px; height: 30px;" /></a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
             {% if request.user.is_staff %}
-              <li><a class="dropdown-item" href="{% url 'plan-detail' %}">Profile</a></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'plan-detail' %}">Profile</a>
+              </li>
             {% else %}
               {% if request.user.customer %}
-                <li><a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a></li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'customer-profile' request.user.id %}">Profile</a>
+                </li>
               {% else %}
-                <li><span class="dropdown-item text-muted">Create Customer</span></li>
+                <li>
+                  <span class="dropdown-item text-muted">Create Customer</span>
+                </li>
               {% endif %}
             {% endif %}
-            <li><a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'logout-page' %}">Logout</a>
+            </li>
           </ul>
         </li>
       </ul>
-
     </div>
   </div>
 </nav>
 
+<script>
+  function submitCategory(category) {
+    document.getElementById('categoryInput').value = category
+    document.getElementById('categoryForm').submit()
+  }
+  
+  function submitCondition(condition) {
+    document.getElementById('conditionInput').value = condition
+    document.getElementById('categoryForm').submit()
+  }
+</script>

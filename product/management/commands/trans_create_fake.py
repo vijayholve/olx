@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from product.models import Transaction, Order, Plan, PaymentType
+from product.models import  Order, Plan, PaymentType
 from django.contrib.auth.models import User
 from faker import Faker
 import random
@@ -38,12 +38,4 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS(f'Order {order.order_no} created for user {user.username}'))
 
-            if order.payment_status:  # If the order is marked as paid, create a transaction
-                transaction = Transaction.objects.create(
-                    Customer=user,
-                    transaction_no=str(uuid.uuid4()),
-                    amount=amount,
-                    plan=plan,
-                    payment_type=payment_type
-                )
-                self.stdout.write(self.style.SUCCESS(f'Transaction {transaction.transaction_no} created for order {order.order_no}'))
+            

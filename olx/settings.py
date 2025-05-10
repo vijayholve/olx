@@ -92,13 +92,9 @@ load_dotenv('.env')
 
 
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':os.getenv('DB_NAME','olx'),
-        'USER': os.getenv('DB_USERNAME','root'),
-        'PASSWORD': os.getenv('DB_PASSWORD','vijay'),
-        'HOST': os.getenv('DB_HOST','localhost'),   
-        'PORT': os.getenv('DB_PORT',3306),  
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -148,9 +144,10 @@ STATICFILES_DIRS = [
 
 from decouple import config
 
+from os import getenv
 
-RAZORPAY_KEY_ID = 'rzp_test_dQf4boN8rkxzyAv'
-RAZORPAY_KEY_SECRET ='icPzmcCO3jxFhQ7K6q6MYY2i'
+RAZORPAY_KEY_ID = getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = getenv("RAZORPAY_KEY_SECRET")
 
 
 RAZORPAY_CALLBACK_URL = "http://127.0.0.1:8000/payment-verify"

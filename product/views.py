@@ -29,7 +29,7 @@ from django.db.models import Q
 from .models import Product, Category, ProductImage  # Import your models
 @login_required(login_url='login-page')
 def home(request):
-    category = request.GET.get('category', '')
+    category = request.GET.get('category', '') 
     query = request.GET.get('search', '')
     condition=request.GET.get('condition', '')
     
@@ -110,7 +110,7 @@ def product_details(request, product_id):
     ]
     product_images_all=[]
     for pro_img in ProductImage.objects.filter(product=product):
-        product_images_all += pro_img.image.url  
+        product_images_all += [pro_img.image.url] if pro_img.image else []
     suggest_product_images = {
         suggested_product.id: ProductImage.objects.filter(product=suggested_product).first().image.url 
         if ProductImage.objects.filter(product=suggested_product).exists() else None
@@ -189,7 +189,6 @@ def product_delete(request, product_id):
 logger = logging.getLogger(__name__)
 client=  razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-@method_decorator(csrf_exempt, name='dispatch')
 class CreatePaymentView(LoginRequiredMixin, View):
     def post(self, request, product_id):
         try:

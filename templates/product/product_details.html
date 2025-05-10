@@ -2,7 +2,6 @@
 {% load custom_filters %}
 {% block css_content %}
   {% load static %}
-  {% load static %}
 
   <link rel="apple-touch-icon" href="{% static 'img/apple-icon.png' %}" />
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}" />
@@ -89,14 +88,20 @@
               </ul>
 
               <h6>Specification:</h6>
-              <ul class="list-unstyled pb-3">
-                {% for spec in product.specifications.all %}
-                  <li>{{ spec }}</li>
-                {% endfor %}
-              </ul>
+              {% if product.specifications.all %}
+                <ul class="list-unstyled pb-3">
+                  {% for spec in product.specifications.all %}
+                    <li>{{ spec }}</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="text-muted">No specifications available.</p>
+              {% endif %}
 
               <!-- Add to Cart -->
-              <form action="" method="GET">
+              <form action="" method="POST">
+                {% csrf_token %}
+
                 <input type="hidden" name="product-title" value="{{ product.title }}" />
 
                 <div class="row">
@@ -135,9 +140,13 @@
 
   <script>
     function changeImage(url) {
-      const carousel = document.getElementById('productCarousel')
-      const inner = carousel.querySelector('.carousel-inner')
-      inner.querySelector('.carousel-item.active img').src = url
+      const carouselItems = document.querySelectorAll('#productCarousel .carousel-item')
+      carouselItems.forEach((item) => {
+        if (item.classList.contains('active')) {
+          const img = item.querySelector('img')
+          if (img) img.src = url
+        }
+      })
     }
   </script>
 
