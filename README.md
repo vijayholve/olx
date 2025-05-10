@@ -48,9 +48,8 @@
   </a>
 </p>
 
-
- <img src="/media/project/image.png" alt="vuejs" width="200" height="200"/>
- <img src="/media/project/image1.png" alt="vuejs" width="200" height="200"/>
-  <img src="/media/project/image2.png" alt="vuejs" width="200" height="200"/>
-   <img src="/media/project/image3.png" alt="vuejs" width="200" height="200"/>
-    <img src="/media/project/image4.png" alt="vuejs" width="200" height="200"/>
+<img src="media/project/image.png" alt="image1" style="width:100%; height:200px;"/>
+<img src="media/project/image1.png" alt="image2" style="width:100%; height:200px;"/>
+<img src="media/project/image2.png" alt="image3" style="width:100%; height:200px;"/>
+<img src="media/project/image3.png" alt="image4" style="width:100%; height:200px;"/>
+<img src="media/project/image4.png" alt="image5" style="width:100%; height:200px;"/>
